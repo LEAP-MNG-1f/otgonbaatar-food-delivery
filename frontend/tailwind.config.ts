@@ -20,6 +20,10 @@ export default {
         xl: "1536px", // => @media (min-width: 1536px) { ... }
         "2xl": "1920px", // => @media (min-width: 1920px) { ... }
       },
+      fontFamily: {
+        "sf-pro": ["SF Pro", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
+      },
     },
   },
   plugins: [],
