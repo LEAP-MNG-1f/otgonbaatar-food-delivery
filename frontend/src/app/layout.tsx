@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+// import Image from "next/image";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +27,34 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col m-auto w-full border`}
       >
+        <div className="flex max-w-screen-lg justify-between px-[120px]">
+          <div className="flex gap-2">
+            <div className=""></div>
+            <img src="/frontend/public/Logo/Logo.png" alt="" />
+            <button className="px-4 py-2">НҮҮР</button>
+            <button className="px-4 py-2">ХООЛНЫ ЦЭС</button>
+            <button className="px-4 py-2">ХҮРГЭЛТИЙН БҮС</button>
+          </div>
+          <div>
+            <button className="">Сагс</button>
+            <button className="">Нэвтрэх</button>
+          </div>
+        </div>
         {children}
+        <div
+          style={{
+            backgroundImage: `url(${"background.svg"})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            width: "100%",
+            height: "545px",
+          }}
+          className="flex w-full h-[545px] bg-[#18BA51]"
+        >
+          <div className="flex w-full px-[120px] py-[114px] border m-auto"></div>
+        </div>
       </body>
     </html>
   );
