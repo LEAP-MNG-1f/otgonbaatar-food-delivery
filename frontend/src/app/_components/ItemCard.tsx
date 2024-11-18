@@ -8,7 +8,7 @@ type ItemCardProps = {
 
 const ItemCard = ({ name, price, imageUrl }: ItemCardProps) => {
   return (
-    <div className="flex flex-col w-[282px] h-auto gap-[14px]">
+    <button className="flex flex-col w-[282px] h-auto gap-[14px] cursor-pointer hover:border-b hover:border-green-400">
       <div
         style={{
           backgroundImage: `url(${imageUrl})`,
@@ -34,7 +34,7 @@ const ItemCard = ({ name, price, imageUrl }: ItemCardProps) => {
           {price}₮
         </p>
       </div>
-    </div>
+    </button>
   );
 };
 export default ItemCard;

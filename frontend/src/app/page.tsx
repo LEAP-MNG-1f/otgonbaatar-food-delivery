@@ -131,22 +131,18 @@ export default function Home() {
         <div className="flex w-full h-auto gap-6">
           <ItemCard
             name="Өглөөний хоол"
-            price={14800} // price нь тоон төрөлтэй байна
+            price={14800}
             imageUrl="/Images/food1.jpeg"
           />
-          <ItemCard
-            name="Зайрмаг"
-            price={4800} // price нь тоон төрөлтэй байна
-            imageUrl="/Images/food2.jpeg"
-          />
+          <ItemCard name="Зайрмаг" price={4800} imageUrl="/Images/food2.jpeg" />
           <ItemCard
             name="Өглөөний хоол"
-            price={24800} // price нь тоон төрөлтэй байна
+            price={24800}
             imageUrl="/Images/food.png"
           />
           <ItemCard
             name="Breakfast"
-            price={27000} // price нь тоон төрөлтэй байна
+            price={27000}
             imageUrl="/Images/food3.png"
           />
         </div>

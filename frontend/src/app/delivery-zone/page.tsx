@@ -10,7 +10,7 @@ const DeliveryZone = () => {
   useEffect(() => {
     const initMap = async () => {
       const loader = new Loader({
-        apiKey: "AIzaSyBeK6kNAnqtWp2xZpPHmcXOjESpg5cu6ek", // Replace with your Google Maps API Key
+        apiKey: "AIzaSyBeK6kNAnqtWp2xZpPHmcXOjESpg5cu6ek",
         version: "weekly",
       });
       const { Map } = await loader.importLibrary("maps");

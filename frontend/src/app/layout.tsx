@@ -36,14 +36,15 @@ export default function RootLayout({
         <div className="flex flex-col flex-grow justify-center">
           <div className="flex flex-col flex-grow">
             <div className="flex max-w-screen justify-between px-[120px]">
-              <div className="flex gap-2 py-2 px-6">
-                <div className=""></div>
-                <Image
-                  src="/Icons/Logo.svg"
-                  alt="Food Delivery Logo"
-                  width={31.26}
-                  height={26.76}
-                />
+              <div className="flex gap-2 py-2 px-6 items-center">
+                <Link href={"/"}>
+                  <Image
+                    src="/Icons/Logo.svg"
+                    alt="Food Delivery Logo"
+                    width={31.26}
+                    height={26.76}
+                  />
+                </Link>
                 <Link href={"/"}>
                   <button
                     className={`px-4 py-2 ${
@@ -72,31 +73,42 @@ export default function RootLayout({
                   </button>
                 </Link>
               </div>
-              <div className="flex gap-2 items-cente">
-                <button className="flex px-4 py-2 gap-2 items-center">
-                  <Image
-                    src="/Icons/OrderIcon.svg"
-                    alt="Food Delivery Logo"
-                    width={20}
-                    height={20}
-                  />
-                  Сагс
-                </button>
-                <button className="flex px-4 py-2 gap-2 items-center">
-                  <Image
-                    src="/Icons/UserIcon.svg"
-                    alt="Food Delivery Logo"
-                    width={16}
-                    height={16}
-                  />
-                  Нэвтрэх
-                </button>
+              <div className="flex gap-2 items-center">
+                <Link href={"checkout"}>
+                  <button
+                    className={`flex px-4 py-2 gap-2 items-center ${
+                      pathname === "/checkout" ? "text-[#18BA51]" : ""
+                    }`}
+                  >
+                    <Image
+                      src="/Icons/OrderIcon.svg"
+                      alt="Food Delivery Logo"
+                      width={20}
+                      height={20}
+                    />
+                    Сагс
+                  </button>
+                </Link>
+                <Link href={"login"}>
+                  <button
+                    className={`flex px-4 py-2 gap-2 items-center ${
+                      pathname === "/login" ? "text-[#18BA51]" : ""
+                    }`}
+                  >
+                    <Image
+                      src="/Icons/UserIcon.svg"
+                      alt="Food Delivery Logo"
+                      width={16}
+                      height={16}
+                    />
+                    Нэвтрэх
+                  </button>
+                </Link>
               </div>
             </div>
-          </div>
-
-          <div className="flex flex-col justify-center items-center">
-            {children}
+            <div className="flex flex-col justify-center items-center">
+              {children}
+            </div>
           </div>
 
           <div
