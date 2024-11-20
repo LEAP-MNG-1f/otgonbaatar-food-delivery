@@ -9,8 +9,11 @@ import {
 } from "../../public/Icons/Icons";
 import Image from "next/image";
 import ItemCard from "./_components/ItemCard";
+import ItemCardDetail from "./_components/ItemCardDetail";
 
 export default function Home() {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
   const fetchData = async () => {
     try {
       const response = await fetch("http://localhost:8000");
@@ -24,7 +27,7 @@ export default function Home() {
     fetchData();
   }, []);
   return (
-    <div className="flex flex-col w-full h-auto">
+    <div className="flex flex-col w-full h-auto mb-14">
       <div
         style={{
           backgroundImage: `url(${"background.svg"})`,
@@ -129,22 +132,36 @@ export default function Home() {
           </button>
         </div>
         <div className="flex w-full h-auto gap-6">
-          <ItemCard
-            name="Өглөөний хоол"
-            price={14800}
-            imageUrl="/Images/food1.jpeg"
-          />
-          <ItemCard name="Зайрмаг" price={4800} imageUrl="/Images/food2.jpeg" />
-          <ItemCard
-            name="Өглөөний хоол"
-            price={24800}
-            imageUrl="/Images/food.png"
-          />
-          <ItemCard
-            name="Breakfast"
-            price={27000}
-            imageUrl="/Images/food3.png"
-          />
+          <button onClick={() => setIsModalOpen(true)} type="button">
+            <ItemCard
+              name="Өглөөний хоол"
+              price={14800}
+              imageUrl="/Images/food1.jpeg"
+            />
+          </button>
+          <button onClick={() => setIsModalOpen(true)} type="button">
+            <ItemCard
+              name="Зайрмаг"
+              price={4800}
+              imageUrl="/Images/food2.jpeg"
+            />
+          </button>
+
+          <button onClick={() => setIsModalOpen(true)} type="button">
+            <ItemCard
+              name="Өглөөний хоол"
+              price={24800}
+              imageUrl="/Images/food.png"
+            />
+          </button>
+          <button onClick={() => setIsModalOpen(true)} type="button">
+            <ItemCard
+              name="Breakfast"
+              price={27000}
+              imageUrl="/Images/food3.png"
+            />
+          </button>
+          {isModalOpen && <ItemCardDetail setIsModalOpen={setIsModalOpen} />}
         </div>
       </div>
     </div>
