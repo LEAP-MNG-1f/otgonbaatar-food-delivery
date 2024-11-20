@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import ItemCard from "./_components/ItemCard";
 import ItemCardDetail from "./_components/ItemCardDetail";
+import SwipeableTemporaryDrawer from "./_components/DrawerSwipeable";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -162,6 +163,7 @@ export default function Home() {
             />
           </button>
           {isModalOpen && <ItemCardDetail setIsModalOpen={setIsModalOpen} />}
+          <SwipeableTemporaryDrawer />
         </div>
       </div>
     </div>
