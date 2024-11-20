@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { MapIcon } from "../../../public/Icons/Icons";
 
-const Checkout = () => {
+const Order = () => {
   const [district, setDistrict] = React.useState("");
   const [committee, setCommittee] = React.useState("");
   const [apartment, setApartment] = React.useState("");
@@ -228,4 +228,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default Order;

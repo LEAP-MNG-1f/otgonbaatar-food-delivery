@@ -5,6 +5,7 @@ import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Checkout from "./_components/Checkout";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -74,21 +75,20 @@ export default function RootLayout({
                 </Link>
               </div>
               <div className="flex gap-2 items-center">
-                <Link href={"checkout"}>
-                  <button
-                    className={`flex px-4 py-2 gap-2 items-center ${
-                      pathname === "/checkout" ? "text-[#18BA51]" : ""
-                    }`}
-                  >
-                    <Image
-                      src="/Icons/OrderIcon.svg"
-                      alt="Food Delivery Logo"
-                      width={20}
-                      height={20}
-                    />
-                    Сагс
-                  </button>
-                </Link>
+                <button
+                  className={`flex px-4 py-2 gap-2 items-center ${
+                    pathname === "/checkout" ? "text-[#18BA51]" : ""
+                  }`}
+                >
+                  <Image
+                    src="/Icons/OrderIcon.svg"
+                    alt="Food Delivery Logo"
+                    width={20}
+                    height={20}
+                  />
+                  <Checkout />
+                  Сагс
+                </button>
                 <Link href={"login"}>
                   <button
                     className={`flex px-4 py-2 gap-2 items-center ${

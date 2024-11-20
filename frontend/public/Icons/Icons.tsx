@@ -129,3 +129,37 @@ export const PlusIcon = () => {
     </svg>
   );
 };
+
+export const ArrowForward = () => {
+  return (
+    <svg
+      width="12"
+      height="20"
+      viewBox="0 0 12 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10.1117 0L11.8867 1.775L3.66172 10L11.8867 18.225L10.1117 20L0.111718 10L10.1117 0Z"
+        fill="#1C1B1F"
+      />
+    </svg>
+  );
+};
+
+export const CloseIcon = () => {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.4 14L0 12.6L5.6 7L0 1.4L1.4 0L7 5.6L12.6 0L14 1.4L8.4 7L14 12.6L12.6 14L7 8.4L1.4 14Z"
+        fill="#1C1B1F"
+      />
+    </svg>
+  );
+};

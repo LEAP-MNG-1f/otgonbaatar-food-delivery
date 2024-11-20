@@ -14,44 +14,44 @@ const FoodMenu = () => {
     <div className="flex flex-col w-full h-auto">
       <div className="flex w-full py-8 gap-6 px-[120px]">
         <button
-          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] 
+          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300
           ${
             activeButton === "breakfast"
-              ? "bg-[#18BA54] text-white"
-              : "hover:border-[#18BA51] hover:text-black hover:shadow-sm"
+              ? "bg-[#18BA55] text-white"
+              : "hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
           }`}
           onClick={() => handleClick("breakfast")}
         >
           Breakfast
         </button>
         <button
-          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] 
+          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300
           ${
             activeButton === "soup"
-              ? "bg-[#18BA54] text-white"
-              : "hover:border-[#18BA51] hover:text-black hover:shadow-sm"
+              ? "bg-[#18BA55] text-white"
+              : "hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
           }`}
           onClick={() => handleClick("soup")}
         >
           Soup
         </button>
         <button
-          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] 
+          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300
           ${
             activeButton === "mainCourse"
-              ? "bg-[#18BA54] text-white"
-              : "hover:border-[#18BA51] hover:text-black hover:shadow-sm"
+              ? "bg-[#18BA55] text-white"
+              : "hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
           }`}
           onClick={() => handleClick("mainCourse")}
         >
           Main Course
         </button>
         <button
-          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] 
+          className={`w-[280px] py-2 px-4 bg-white text-black text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300
           ${
             activeButton === "dessert"
-              ? "bg-[#18BA54] text-white"
-              : "hover:border-[#18BA51] hover:text-black hover:shadow-sm"
+              ? "bg-[#18BA55] text-white"
+              : "hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
           }`}
           onClick={() => handleClick("dessert")}
         >
