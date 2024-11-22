@@ -9,6 +9,7 @@ import {
   PlusIcon,
 } from "../../../public/Icons/Icons";
 import Link from "next/link";
+import Image from "next/image";
 
 type Anchor = "right";
 
@@ -112,7 +113,15 @@ export default function Checkout() {
       {(["right"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <button onClick={toggleDrawer(anchor, true)}>
-            <p className="text-xl font-black font-poppins">Таны сагс</p>
+            <div className="flex px-4 py-2 gap-2 items-center">
+              <Image
+                src="/Icons/OrderIcon.svg"
+                alt="Food Delivery Logo"
+                width={20}
+                height={20}
+              />
+              Сагс
+            </div>
           </button>
           <SwipeableDrawer
             anchor={anchor}

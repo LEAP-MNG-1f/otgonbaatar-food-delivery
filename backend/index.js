@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
+import connectDB from "./connectDB.js";
 
 const server = express();
 const PORT = 8000;
@@ -10,9 +11,24 @@ dotenv.config();
 
 server.use(cors());
 
-server.get("/", (req, res) => {
-  // res.send("get huselt irlee");
-  res.json({ message: "Success", data: "Food-Delivery API" });
+server.get("/", async (req, res) => {
+  const db = await connectDB();
+  let collection = db.collection("User");
+  let result = await collection.find().toArray();
+
+  res.json({ success: true, data: result });
+});
+
+server.get("/food", async (req, res) => {
+  try {
+    const db = await connectDB();
+    let collection = db.collection("Food");
+    let result = await collection.find().toArray();
+
+    res.json({ success: true, data: result });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 server.post("/image", async (req, res) => {

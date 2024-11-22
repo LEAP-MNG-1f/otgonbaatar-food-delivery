@@ -8,7 +8,7 @@ type ItemCardProps = {
 
 const ItemCard = ({ name, price, imageUrl }: ItemCardProps) => {
   return (
-    <button className="flex flex-col w-[282px] h-auto gap-[14px] cursor-pointer hover:border-b hover:border-green-400">
+    <div className="flex flex-col w-[282px] h-auto gap-[14px] cursor-pointer hover:border-b hover:border-green-400">
       <div
         style={{
           backgroundImage: `url(${imageUrl})`,
@@ -18,14 +18,7 @@ const ItemCard = ({ name, price, imageUrl }: ItemCardProps) => {
           height: "186px",
         }}
         className="w-full h-auto rounded-2xl"
-      >
-        {/* <Image
-          src="/Images/food1.png"
-          alt="Food Delivery Logo"
-          width={282}
-          height={186}
-        /> */}
-      </div>
+      ></div>
       <div className="flex flex-col">
         <p className="text-black font-poppins text-lg font-semibold leading-normal">
           {name}
@@ -34,7 +27,7 @@ const ItemCard = ({ name, price, imageUrl }: ItemCardProps) => {
           {price}₮
         </p>
       </div>
-    </button>
+    </div>
   );
 };
 export default ItemCard;
