@@ -4,7 +4,7 @@ import FoodMenuContainer from "./_components/FoodMenuContainer";
 import CreateFood from "./_components/CreateFood";
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenFood, setIsModalOpenFood] = useState(false);
   const [activeButton, setActiveButton] = useState("breakfast");
 
   const handleCategoryClick = (button: string) => {
@@ -24,7 +24,7 @@ export default function Home() {
               Breakfast
             </p>
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsModalOpenFood(true)}
               className="bg-[#18BA51] px-4 py-2 text-[#fff] text-base font-normal rounded"
             >
               Add new food
@@ -33,7 +33,9 @@ export default function Home() {
         </div>
       </div>
       <div className=""></div>
-      {isModalOpen && <CreateFood setIsModalOpen={setIsModalOpen} />}
+      {isModalOpenFood && (
+        <CreateFood setIsModalOpenFood={setIsModalOpenFood} />
+      )}
     </div>
   );
 }

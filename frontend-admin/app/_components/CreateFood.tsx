@@ -1,12 +1,12 @@
 import { CloseIcon } from "@/public/Icons/Icons";
 
 type props = {
-  setIsModalOpen: (value: boolean) => void;
+  setIsModalOpenFood: (value: boolean) => void;
 };
 const CreateFood = (props: props) => {
   return (
     <div
-      //   onClick={() => props.setIsModalOpen(false)}
+      //   onClick={() => props.setIsModalOpenFood(false)}
       id="popup-modal"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
     >
@@ -16,7 +16,10 @@ const CreateFood = (props: props) => {
           <p className="text-[#272727] text-2xl font-bold leading-normal">
             Create food
           </p>
-          <button className="flex items-center">
+          <button
+            onClick={() => props.setIsModalOpenFood(false)}
+            className="flex items-center"
+          >
             <CloseIcon />
           </button>
         </div>
@@ -80,13 +83,17 @@ const CreateFood = (props: props) => {
             <p className="text-[#121316] text-sm font-normal leading-5">
               Хоолны зураг
             </p>
-            <div className="w-[284px] h-[122px]">
+            <div className="flex flex-col w-[284px] h-[122px] p-2 gap-2 justify-center items-center border border-dashed rounded-lg">
               <p className="text-[#525252] text-base font-bold leading-6">
                 Add image for the food
               </p>
-              <div className="w-[144px] text-[#FFFFFF] bg-[#393939] text-base font-bold leading-6 px-3 py-2 rounded-lg">
+              <input type="file" id="uploadFile1" className="hidden" />
+              <label
+                htmlFor="uploadFile1"
+                className="flex items-center justify-center w-[144px] text-[#FFFFFF] bg-[#393939] text-base font-bold leading-6 px-3 py-2 rounded-lg cursor-pointer"
+              >
                 Add image
-              </div>
+              </label>
             </div>
           </div>
         </div>

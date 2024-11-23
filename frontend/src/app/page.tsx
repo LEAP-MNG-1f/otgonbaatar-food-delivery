@@ -24,7 +24,7 @@ type ApiResponse = {
 };
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpenFood, setIsModalOpen] = React.useState(false);
   const [foodData, setFoodData] = React.useState<Food[]>([]);
 
   const fetchData = async () => {
@@ -183,7 +183,9 @@ export default function Home() {
               imageUrl="/Images/food3.png"
             />
           </button> */}
-          {isModalOpen && <ItemCardDetail setIsModalOpen={setIsModalOpen} />}
+          {isModalOpenFood && (
+            <ItemCardDetail setIsModalOpen={setIsModalOpen} />
+          )}
         </div>
       </div>
     </div>

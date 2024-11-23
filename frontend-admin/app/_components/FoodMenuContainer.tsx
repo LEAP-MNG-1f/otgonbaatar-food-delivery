@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MoreIcon, PlusIcon } from "@/public/Icons/Icons";
+import CreateCategory from "./CreateCategory";
 
 interface FoodMenuContainerProps {
   initialActiveButton?: string;
@@ -10,6 +11,8 @@ const FoodMenuContainer: React.FC<FoodMenuContainerProps> = ({
   initialActiveButton = "",
   onCategoryClick,
 }) => {
+  const [isModalOpenCategory, setIsModalOpenCategory] = useState(false);
+
   const [activeButton, setActiveButton] = useState(initialActiveButton);
 
   const handleClicked = (category: string) => {
@@ -41,7 +44,10 @@ const FoodMenuContainer: React.FC<FoodMenuContainerProps> = ({
         ))}
         <button
           className={`flex gap-2 items-center w-full h-auto rounded-lg border border-[#D6D8DB] bg-white text-black text-lg font-medium leading-7 py-2 px-4 hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm duration-300`}
-          onClick={() => handleClicked("new-category")}
+          onClick={() => {
+            handleClicked("new-category");
+            setIsModalOpenCategory(true);
+          }}
         >
           <PlusIcon />
           <p className="text-[#5E6166] text-lg font-medium leading-7">
@@ -49,6 +55,9 @@ const FoodMenuContainer: React.FC<FoodMenuContainerProps> = ({
           </p>
         </button>
       </div>
+      {isModalOpenCategory && (
+        <CreateCategory setIsModalOpenCategory={setIsModalOpenCategory} />
+      )}
     </div>
   );
 };
