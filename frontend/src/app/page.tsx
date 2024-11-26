@@ -29,7 +29,7 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/food");
+      const response = await fetch("http://localhost:8000/api/foods");
       const data: ApiResponse = await response.json();
       setFoodData(data.data);
     } catch (error) {

@@ -4,6 +4,12 @@ import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
 import connectDB from "./connectDB.js";
 import multer from "multer";
+import Food from "./model/Food.js";
+import mongoose from "mongoose";
+import userRouter from "./routes/userRoute.js";
+import orderRouter from "./routes/orderRoute.js";
+import categoryRouter from "./routes/categoryRoute.js";
+import foodRouter from "./routes/foodRoute.js";
 
 const server = express();
 const PORT = 8000;
@@ -11,7 +17,16 @@ const PORT = 8000;
 dotenv.config();
 
 server.use(express.json());
-server.use(cors({ origin: "*" }));
+server.use(cors());
+
+server.use("/api", userRouter);
+server.use("/api", orderRouter);
+server.use("/api", categoryRouter);
+server.use("/api", foodRouter);
+
+mongoose.connect(
+  "mongodb+srv://theotgonbaatar56:YXjGni3aMHaC35TW@otgonbaatar-test.7rcg2.mongodb.net/food-delivery"
+);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -38,32 +53,43 @@ server.get("/", async (req, res) => {
   res.json({ success: true, data: result });
 });
 
-server.get("/food", async (req, res) => {
-  try {
-    const db = await connectDB();
-    let collection = db.collection("Food");
-    let result = await collection.find().toArray();
+// server.get("/food", async (req, res) => {
+//   try {
+//     // const article = new Food({
+//     //   name: "Oreo shake",
+//     //   image: "url",
+//     //   ingredient: "Beef, Cheese, Lettuce",
+//     //   price: 6600,
+//     // });
 
-    res.json({ success: true, data: result });
-  } catch (error) {
-    console.log(error);
-  }
-});
+//     // await article.save();
+
+//     const firstArticle = await Food.findOne({});
+//     res.json({ success: true, data: firstArticle });
+//     // const db = await connectDB();
+//     // let collection = db.collection("Food");
+//     // let result = await collection.find().toArray();
+
+//     // res.json({ success: true, data: result });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 server.post("/create-food", upload.single("image"), async (req, res) => {
   try {
     const { name, ingredient, price } = req.body;
 
-    const imageFilePath = "./assets/image4.png";
+    const imageFilePath = "./assets/oreo.png";
 
     const uploadResult = await cloudinary.uploader.upload(imageFilePath, {
       folder: "foods",
     });
 
-    const db = await connectDB();
-    const collection = db.collection("Food");
+    // const db = await connectDB();
+    // const collection = db.collection("Food");
 
-    const result = await collection.insertOne({
+    const result = await Food.create({
       name: name,
       image: uploadResult.url,
       ingredient: ingredient,

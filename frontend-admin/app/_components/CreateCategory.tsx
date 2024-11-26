@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CloseIcon } from "@/public/Icons/Icons";
+import { createCategory } from "@/services/api"; // Import API function
 
 type Props = {
   setIsModalOpenCategory: (value: boolean) => void;
@@ -7,9 +8,33 @@ type Props = {
 
 const CreateCategory = (props: Props) => {
   const [categoryName, setCategoryName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleClear = () => {
     setCategoryName("");
+    setError("");
+  };
+
+  const handleSubmit = async () => {
+    if (!categoryName.trim()) {
+      setError("Category name is required.");
+      return;
+    }
+    setLoading(true);
+    setError("");
+
+    try {
+      const result = await createCategory({ name: categoryName, foodId: "" });
+      console.log("Category created:", result);
+      console.log(categoryName);
+
+      props.setIsModalOpenCategory(false);
+    } catch (err) {
+      setError("Failed to create category. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,6 +66,7 @@ const CreateCategory = (props: Props) => {
               onChange={(event) => setCategoryName(event.target.value)}
               className="h-14 bg-[#F4F4F4] outline-none px-3 rounded-lg"
             />
+            {error && <p className="text-red-500 text-sm">{error}</p>}
           </div>
         </div>
         <div className="flex px-6 py-6 gap-4 justify-end border-t">
@@ -50,8 +76,14 @@ const CreateCategory = (props: Props) => {
           >
             Clear
           </button>
-          <button className="bg-[#393939] px-4 py-[10px] text-[#FFFFFF] text-base font-bold leading-5 rounded-md">
-            Continue
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className={`bg-[#393939] px-4 py-[10px] text-[#FFFFFF] text-base font-bold leading-5 rounded-md ${
+              loading ? "opacity-50" : ""
+            }`}
+          >
+            {loading ? "Creating..." : "Continue"}
           </button>
         </div>
       </div>
