@@ -1,13 +1,11 @@
 import Food from "../model/Food.js";
 import { v2 as cloudinary } from "cloudinary";
 
-// Get all foods
 const getFood = async (request, response) => {
   const result = await Food.find();
   response.json({ success: true, data: result });
 };
 
-// Create food (with image upload)
 const createFood = async (request, response) => {
   try {
     const { name, ingredient, price } = request.body;
@@ -19,14 +17,13 @@ const createFood = async (request, response) => {
         .json({ success: false, message: "Image is required" });
     }
 
-    // Upload the image to Cloudinary
     const uploadResult = await cloudinary.uploader.upload(file.path, {
       folder: "foods",
     });
 
     const result = await Food.create({
       name,
-      image: uploadResult.url, // Store the Cloudinary image URL
+      image: uploadResult.url,
       ingredient,
       price,
     });
@@ -44,7 +41,6 @@ const createFood = async (request, response) => {
   }
 };
 
-// Update food
 const updateFood = async (request, response) => {
   try {
     const { id } = request.params;
@@ -79,7 +75,6 @@ const updateFood = async (request, response) => {
   }
 };
 
-// Delete food
 const deleteFood = async (request, response) => {
   const { id } = request.params;
   if (!id.match(/^[0-9a-fA-F]{24}$/)) {

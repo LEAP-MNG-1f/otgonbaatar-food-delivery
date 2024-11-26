@@ -8,7 +8,7 @@ interface FoodMenuContainerProps {
 }
 
 const FoodMenuContainer: React.FC<FoodMenuContainerProps> = ({
-  initialActiveButton = "",
+  initialActiveButton = "breakfast",
   onCategoryClick,
 }) => {
   const [isModalOpenCategory, setIsModalOpenCategory] = useState(false);
@@ -33,7 +33,7 @@ const FoodMenuContainer: React.FC<FoodMenuContainerProps> = ({
             key={category}
             className={`flex justify-between items-center w-full h-auto rounded-lg border border-[#D6D8DB] bg-white text-black text-lg font-medium leading-7 py-2 px-4 ${
               activeButton === category
-                ? "bg-[#18BA52] text-white"
+                ? "bg-[#18BA53] text-white"
                 : "hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm duration-300"
             }`}
             onClick={() => handleClicked(category)}
