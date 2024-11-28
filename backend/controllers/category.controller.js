@@ -1,4 +1,4 @@
-import Category from "../model/Category.js";
+import Category from "../models/Category.js";
 
 const getCategory = async (request, response) => {
   const result = await Category.find();

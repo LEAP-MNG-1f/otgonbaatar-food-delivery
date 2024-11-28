@@ -5,6 +5,7 @@ type FoodData = {
   name: string;
   ingredient: string;
   price: string;
+  categoryId: string;
   image: File | null;
 };
 
@@ -17,6 +18,7 @@ const CreateFood = (props: Props) => {
     name: "",
     ingredient: "",
     price: "",
+    categoryId: "",
     image: null,
   });
 
@@ -42,6 +44,7 @@ const CreateFood = (props: Props) => {
     formData.append("name", foodData.name);
     formData.append("ingredient", foodData.ingredient);
     formData.append("price", foodData.price);
+    formData.append("categoryId", foodData.categoryId);
     if (foodData.image) {
       formData.append("image", foodData.image);
     }
@@ -91,6 +94,20 @@ const CreateFood = (props: Props) => {
                   value={foodData.name}
                   onChange={(e) =>
                     setFoodData({ ...foodData, name: e.target.value })
+                  }
+                  className="h-14 bg-[#F4F4F4] outline-none px-3 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="flex flex-col w-full h-auto gap-2">
+                <p className="text-[#121316] text-sm font-normal leading-5">
+                  Хоолны ангилал
+                </p>
+                <input
+                  type="text"
+                  value={foodData.categoryId}
+                  onChange={(e) =>
+                    setFoodData({ ...foodData, categoryId: e.target.value })
                   }
                   className="h-14 bg-[#F4F4F4] outline-none px-3 rounded-lg"
                   required

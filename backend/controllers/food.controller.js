@@ -1,14 +1,14 @@
-import Food from "../model/Food.js";
+import Food from "../models/Food.js";
 import { v2 as cloudinary } from "cloudinary";
 
 const getFood = async (request, response) => {
-  const result = await Food.find();
+  const result = await Food.find().populate("categoryId");
   response.json({ success: true, data: result });
 };
 
 const createFood = async (request, response) => {
   try {
-    const { name, ingredient, price } = request.body;
+    const { name, ingredient, price, categoryId } = request.body;
     const file = request.file;
 
     if (!file) {
@@ -26,6 +26,7 @@ const createFood = async (request, response) => {
       image: uploadResult.url,
       ingredient,
       price,
+      categoryId,
     });
 
     response.status(201).json({

@@ -26,6 +26,7 @@ type ApiResponse = {
 export default function Home() {
   const [isModalOpenFood, setIsModalOpen] = React.useState(false);
   const [foodData, setFoodData] = React.useState<Food[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const fetchData = async () => {
     try {
@@ -34,12 +35,14 @@ export default function Home() {
       setFoodData(data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(foodData);
 
   return (
     <div className="flex flex-col w-full h-auto mb-14">
@@ -76,7 +79,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="grid grid-cols-4 w-full h-auto p-[120px]">
+      <div className="grid grid-cols-4 w-full h-auto p-[120px] container m-auto">
         <div className="flex flex-col w-[267px] h-[155px] p-4 gap-[15px] rounded-2xl shadow-md hover:shadow-xl cursor-pointer">
           <div className="items-start p-[15px]">
             <FastDeliveryCardBookIcon />
@@ -130,7 +133,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full h-auto flex flex-col px-[120px] gap-6">
+      <div className="w-full h-auto flex flex-col px-[120px] gap-6 container m-auto">
         <div className="flex justify-between py-4">
           <div className="flex text-text-secondary font-poppins text-22 font-bold leading-normal gap-1">
             <Image
@@ -146,12 +149,13 @@ export default function Home() {
             <RoadMoreIcon />
           </button>
         </div>
-        <div className="flex w-full h-auto gap-6">
-          {foodData.map((food) => (
+        <div className="w-full h-auto grid grid-cols-4 grid-rows-1 gap-6">
+          {/* {foodData.map((food) => (
             <div
               key={food._id}
               onClick={() => setIsModalOpen(true)}
               role="button"
+              className="w-[282px]"
             >
               <ItemCard
                 name={food.name}
@@ -159,30 +163,25 @@ export default function Home() {
                 imageUrl={food.image}
               />
             </div>
-          ))}
-
-          {/* <button onClick={() => setIsModalOpen(true)} type="button">
-            <ItemCard
-              name="Зайрмаг"
-              price={4800}
-              imageUrl="/Images/food2.jpeg"
-            />
-          </button>
-
-          <button onClick={() => setIsModalOpen(true)} type="button">
-            <ItemCard
-              name="Өглөөний хоол"
-              price={24800}
-              imageUrl="/Images/food.png"
-            />
-          </button>
-          <button onClick={() => setIsModalOpen(true)} type="button">
-            <ItemCard
-              name="Breakfast"
-              price={27000}
-              imageUrl="/Images/food3.png"
-            />
-          </button> */}
+          ))} */}
+          {isLoading
+            ? Array.from({ length: 12 }).map((_, index) => (
+                <ItemCard key={index} isLoading={true} />
+              ))
+            : foodData.map((food) => (
+                <div
+                  key={food._id}
+                  role="button"
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-[282px]"
+                >
+                  <ItemCard
+                    name={food.name}
+                    price={food.price}
+                    imageUrl={food.image}
+                  />
+                </div>
+              ))}
           {isModalOpenFood && (
             <ItemCardDetail setIsModalOpen={setIsModalOpen} />
           )}

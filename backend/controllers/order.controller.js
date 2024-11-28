@@ -1,21 +1,21 @@
-import Order from "../model/Order.js";
+import Order from "../models/Order.js";
 
 const getOrder = async (request, response) => {
-  const result = await Order.find();
+  const result = await Order.find().populate("userId").populate("foodIds");
   response.json({ success: true, data: result });
 };
 
 const createOrder = async (request, response) => {
   const result = await Order.create({
-    userId: "64fbd12a84db89d3f8a0aabb",
+    userId: "6744e90d0fcf8e11c199b18c",
     orderNumber: 1001,
-    foods: ["Kool1", "Khool2"],
+    foodIds: ["6744d47f9edb65431b93dfda", "6744d58db0ef819e16d38c47"],
     totalPrice: 25000,
     process: "Waiting",
     createdDate: Date.now(),
-    district: "District A",
-    khoroo: "BZD",
-    apartment: "4r bair",
+    district: "Baynzurh",
+    khoroo: "14-r horoo",
+    apartment: "23-r bair",
   });
 
   response.json({ success: true, data: result });

@@ -4,7 +4,7 @@ import {
   deleteFood,
   getFood,
   updateFood,
-} from "../controllers/foodController.js";
+} from "../controllers/food.controller.js";
 import multer from "multer";
 
 const upload = multer({ dest: "./uploads/" });

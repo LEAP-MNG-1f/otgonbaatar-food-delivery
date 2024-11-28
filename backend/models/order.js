@@ -1,9 +1,19 @@
-import mongoose from "mongoose";
+import mongoose, { SchemaType } from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
+  userId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "User",
+    required: true,
+  },
   orderNumber: { type: Number, required: true },
-  foods: { type: Array, required: true },
+  foodIds: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Food",
+      required: true,
+    },
+  ],
   totalPrice: { type: Number, required: true },
   process: {
     type: String,

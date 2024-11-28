@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 
-// const roleEnum = {
-//   values: ["admin", "user"],
-// };
-
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
