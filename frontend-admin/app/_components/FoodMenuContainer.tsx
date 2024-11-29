@@ -8,11 +8,11 @@ type Category = {
   foodId: string;
 };
 
-interface FoodMenuContainerProps {
+type FoodMenuContainerProps = {
   categoryData: Category[];
   initialActiveButton?: string;
   onCategoryClick?: (category: string) => void;
-}
+};
 
 const FoodMenuContainer: React.FC<FoodMenuContainerProps> = ({
   initialActiveButton = "breakfast",

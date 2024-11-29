@@ -1,4 +1,4 @@
-import Food from "../models/Food.js";
+import Food from "../models/food.js";
 import { v2 as cloudinary } from "cloudinary";
 
 const getFood = async (request, response) => {

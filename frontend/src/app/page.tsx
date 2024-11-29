@@ -183,7 +183,10 @@ export default function Home() {
                 </div>
               ))}
           {isModalOpenFood && (
-            <ItemCardDetail setIsModalOpen={setIsModalOpen} />
+            <ItemCardDetail
+              foodData={foodData}
+              setIsModalOpen={setIsModalOpen}
+            />
           )}
         </div>
       </div>
