@@ -71,7 +71,7 @@ const CreateFood = (props: Props) => {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
     >
       <form onSubmit={handleSubmit}>
-        <div className="relative flex flex-col w-[587px] h-[854px] bg-white rounded-2xl justify-between">
+        <div className="relative flex flex-col w-[587px] h-auto bg-white rounded-2xl justify-between">
           <div className="flex flex-col">
             <div className="flex justify-between px-6 py-4 items-center border-b">
               <p className="text-[#272727] text-2xl font-bold leading-normal">
@@ -168,7 +168,7 @@ const CreateFood = (props: Props) => {
                       <img
                         src={imagePreview}
                         alt="Food Preview"
-                        className="w-full h-[200px] object-contain border border-red-300 border-dashed p-2"
+                        className="w-full h-[200px] object-contain border border-black border-dashed p-2"
                       />
                     </div>
                   )}

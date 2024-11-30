@@ -29,7 +29,7 @@ const DeliveryZone = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full h-auto px-[120px] my-10 gap-8">
+    <div className="flex flex-col container w-full h-auto px-[120px] my-10 gap-8">
       <div ref={mapRef} className="w-full h-[616px]"></div>
       <div className="flex flex-col gap-10">
         <div className="flex text-text-secondary font-poppins text-22 font-bold leading-normal gap-1">

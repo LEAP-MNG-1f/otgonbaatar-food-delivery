@@ -1,4 +1,4 @@
-import { MinusICon, PlusIcon } from "../../../public/Icons/Icons";
+import { MinusICon, PlusIcon } from "../../../../public/Icons/Icons";
 
 type Food = {
   _id: string;

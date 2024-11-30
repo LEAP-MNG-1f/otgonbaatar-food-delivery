@@ -4,8 +4,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import Checkout from "./_components/Checkout";
+import { usePathname, useRouter } from "next/navigation";
+import Checkout from "./_components/Checkout/Checkout";
+import { useEffect, useState } from "react";
+import Loader from "./_components/Loader";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,7 +30,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [loading, setLoading] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setLoading(true);
+
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [pathname]);
+
   return (
     <html lang="en">
       <body
@@ -100,6 +114,7 @@ export default function RootLayout({
               </div>
             </div>
             <div className="flex flex-col justify-center items-center">
+              {loading && <Loader />}
               {children}
             </div>
           </div>
@@ -124,21 +139,29 @@ export default function RootLayout({
                 />
               </div>
               <div className="flex justify-between">
-                <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
-                  Нүүр
-                </div>
+                <Link href={"/"}>
+                  <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
+                    Нүүр
+                  </div>
+                </Link>
+
                 <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
                   Холбоо барих
                 </div>
-                <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
-                  Хоолны цэс
-                </div>
+                <Link href={"/food-menu"}>
+                  <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
+                    Хоолны цэс
+                  </div>
+                </Link>
                 <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
                   Үйлчилгээний нөхцөл
                 </div>
-                <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
-                  Хүргэлтийн бүс
-                </div>
+                <Link href={"/delivery-zone"}>
+                  <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
+                    Хүргэлтийн бүс
+                  </div>
+                </Link>
+
                 <div className="text-white text-center text-base font-sf-pro font-semibold leading-normal underline">
                   Нууцлагын бодлого
                 </div>

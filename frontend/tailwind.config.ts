@@ -26,5 +26,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: ["light"], // DaisyUI themes
+  },
+  plugins: [require("daisyui")],
 } satisfies Config;
