@@ -98,8 +98,11 @@ const OrderInformation = ({
               </InputLabel>
               <Select
                 labelId="district-label"
-                value={district}
-                label="District"
+                value={
+                  Object.keys(districtOptions).find(
+                    (key) => districtOptions[key] === district
+                  ) || ""
+                }
                 onChange={(e) =>
                   handleChange("district", districtOptions[e.target.value])
                 }
@@ -123,7 +126,11 @@ const OrderInformation = ({
               </InputLabel>
               <Select
                 labelId="committee-label"
-                value={committee}
+                value={
+                  Object.keys(committeeOptions).find(
+                    (key) => committeeOptions[key] === committee
+                  ) || ""
+                }
                 onChange={(e) =>
                   handleChange("committee", committeeOptions[e.target.value])
                 }
@@ -147,7 +154,11 @@ const OrderInformation = ({
               </InputLabel>
               <Select
                 labelId="apartment-label"
-                value={apartment}
+                value={
+                  Object.keys(apartmentOptions).find(
+                    (key) => apartmentOptions[key] === apartment
+                  ) || ""
+                }
                 onChange={(e) =>
                   handleChange("apartment", apartmentOptions[e.target.value])
                 }

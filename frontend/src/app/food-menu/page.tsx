@@ -11,6 +11,18 @@ type Food = {
   price: number;
   image: string;
   ingredient: string;
+  categoryId: string;
+};
+
+type Category = {
+  _id: string;
+  name: string;
+  foodId: string;
+};
+
+type CategoryApiResponse = {
+  success: boolean;
+  data: Category[];
 };
 
 type ApiResponse = {
@@ -20,6 +32,7 @@ type ApiResponse = {
 
 const FoodMenu = () => {
   const [foodDatas, setFoodDatas] = useState<Food[]>([]);
+  const [categoryDatas, setCategoryFoodDatas] = useState<Category[]>([]);
   const [activeButton, setActiveButton] = useState("breakfast");
   const [isModalOpenFood, setIsModalOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
@@ -48,13 +61,32 @@ const FoodMenu = () => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
       );
-      const data: ApiResponse = await response.json();
-      setFoodDatas(data.data);
+      const data: CategoryApiResponse = await response.json();
+      setCategoryFoodDatas(data.data);
     } catch (error) {
       console.log(error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClickCategory = (categoryName: string) => {
+    // Сонгогдсон category name-ийг ашиглан categoryId-г шүүж авна
+    const selectedCategory = categoryDatas.find(
+      (data) => data.name === categoryName
+    );
+
+    if (selectedCategory) {
+      const { _id } = selectedCategory; // categoryId-г авна
+      // Энд categoryId-тай бүх мэдээг шүүж авах кодыг нэмнэ
+      // жишээ нь: categoryId-тай холбоотой бүтээгдэхүүнүүдийг шүүх
+      console.log(`Сонгогдсон categoryId: ${_id}`);
+      // Бусад хэрэгтэй үйлдлүүдийг энд хийх
+      // Гэж бодоход, тухайн categoryId-д хамаарах контентыг шүүх болно
+    }
+
+    // `activeButton`-ийг шинэчилж, UI-д өөрчлөлт хийх
+    setActiveButton(categoryName);
   };
 
   useEffect(() => {
@@ -65,50 +97,22 @@ const FoodMenu = () => {
   return (
     <div className="flex flex-col w-[1440px] h-auto container">
       <div className="flex w-full py-8 gap-6 px-[120px] container">
-        <button
-          className={`w-[280px] py-2 px-4 text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300 
-          ${
-            activeButton === "breakfast"
-              ? "bg-[#18BA55] text-white"
-              : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
-          }`}
-          onClick={() => handleClick("breakfast")}
-        >
-          Breakfast
-        </button>
-        <button
-          className={`w-[280px] py-2 px-4 text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300 
-          ${
-            activeButton === "soup"
-              ? "bg-[#18BA55] text-white"
-              : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
-          }`}
-          onClick={() => handleClick("soup")}
-        >
-          Soup
-        </button>
-        <button
-          className={`w-[280px] py-2 px-4 text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300 
-          ${
-            activeButton === "mainCourse"
-              ? "bg-[#18BA55] text-white"
-              : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
-          }`}
-          onClick={() => handleClick("mainCourse")}
-        >
-          Main Course
-        </button>
-        <button
-          className={`w-[280px] py-2 px-4 text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300 
-          ${
-            activeButton === "dessert"
-              ? "bg-[#18BA55] text-white"
-              : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
-          }`}
-          onClick={() => handleClick("dessert")}
-        >
-          Dessert
-        </button>
+        {categoryDatas.map((data) => {
+          return (
+            <button
+              key={data._id}
+              className={`w-[280px] py-2 px-4 text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300 
+      ${
+        activeButton === data.name
+          ? "bg-[#18BA55] text-white"
+          : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
+      }`}
+              onClick={() => handleClick(data.name)}
+            >
+              {data.name}
+            </button>
+          );
+        })}
       </div>
       <div className="h-auto grid grid-cols-4 grid-rows-1 gap-6 container px-[120px]">
         {isLoading
