@@ -1,15 +1,6 @@
 "use client";
 import { useEffect } from "react";
 import * as React from "react";
-import {
-  FastDeliveryCardBookIcon,
-  FastDeliveryCardTimeIcon,
-  FastDeliveryCardVegetableIcon,
-  RoadMoreIcon,
-} from "../../public/Icons/Icons";
-import Image from "next/image";
-import ItemCard from "./_components/ItemCard/ItemCard";
-import ItemCardDetail from "./_components/ItemCard/ItemCardDetail";
 import HomePage from "./_components/HomePage/HomePage";
 
 type Food = {

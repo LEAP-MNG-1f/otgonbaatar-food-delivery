@@ -7,12 +7,16 @@ import {
 } from "../../../../public/Icons/Icons";
 import ItemCard from "../ItemCard/ItemCard";
 import ItemCardDetail from "../ItemCard/ItemCardDetail";
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Food = {
   _id: string;
   name: string;
   price: number;
   image: string;
+  ingredient: string;
 };
 
 const HomePage = ({
@@ -26,6 +30,8 @@ const HomePage = ({
   foodData: Food[];
   isLoading: boolean;
 }) => {
+  const [selectedFood, setSelectedFood] = useState<Food | null>(null);
+
   return (
     <div className="flex flex-col w-full h-auto mb-14">
       <div
@@ -132,44 +138,41 @@ const HomePage = ({
           </button>
         </div>
         <div className="w-full h-auto grid grid-cols-4 grid-rows-1 gap-6">
-          {/* {foodData.map((food) => (
-          <div
-            key={food._id}
-            onClick={() => setIsModalOpen(true)}
-            role="button"
-            className="w-[282px]"
-          >
-            <ItemCard
-              name={food.name}
-              price={food.price}
-              imageUrl={food.image}
-            />
-          </div>
-        ))} */}
           {isLoading
             ? Array.from({ length: 12 }).map((_, index) => (
                 <ItemCard key={index} isLoading={true} />
               ))
             : foodData.map((food) => (
                 <div
-                  key={food._id}
+                  key={food?._id}
                   role="button"
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => {
+                    setSelectedFood(food);
+                    setIsModalOpen(true);
+                  }}
                   className="w-[282px]"
                 >
                   <ItemCard
-                    name={food.name}
-                    price={food.price}
-                    imageUrl={food.image}
+                    name={food?.name}
+                    price={food?.price}
+                    imageUrl={food?.image}
                   />
                 </div>
               ))}
-          {isModalOpenFood && (
+          {isModalOpenFood && selectedFood && (
             <ItemCardDetail
-              foodData={foodData}
+              selectedFood={selectedFood}
               setIsModalOpen={setIsModalOpen}
             />
           )}
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar
+            closeOnClick
+            pauseOnHover
+            style={{ zIndex: 9999 }} // Ensure it renders above modal
+          />
         </div>
       </div>
     </div>

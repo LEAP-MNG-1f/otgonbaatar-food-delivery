@@ -1,10 +1,34 @@
+type Food = {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  ingredient: string;
+};
+
 type ItemCardDetailProps = {
-  setIsModalOpen: (value: boolean) => void; // Prop function to set modal open/close state
+  setIsModalOpen: (value: boolean) => void;
+  itemToDelete: Food; // The food item to delete
+  removeItemFromCart: (itemId: string) => void; // Function to remove item from localStorage
 };
 
 const DeleteOrderConfirmation: React.FC<ItemCardDetailProps> = ({
   setIsModalOpen,
+  itemToDelete,
+  removeItemFromCart,
 }) => {
+  const handleDelete = () => {
+    // Ensure itemToDelete is defined and has an _id property
+    if (!itemToDelete || !itemToDelete._id) {
+      console.error("Item to delete is not defined");
+      return;
+    }
+
+    // Proceed with deleting the item
+    removeItemFromCart(itemToDelete._id); // Remove item by _id
+    setIsModalOpen(false); // Close the modal after deletion
+  };
+
   return (
     <div
       id="deleteModal"
@@ -59,7 +83,8 @@ const DeleteOrderConfirmation: React.FC<ItemCardDetailProps> = ({
               Үгүй, буцах
             </button>
             <button
-              type="submit"
+              onClick={handleDelete} // Delete the item when clicked
+              type="button"
               className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
             >
               Тийм, итгэлтэй

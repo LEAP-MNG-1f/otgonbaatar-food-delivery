@@ -1,65 +1,59 @@
-"use client";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import { MapIcon, CheckIcon } from "../../../../public/Icons/Icons";
 import Checkbox from "@mui/material/Checkbox";
 
 const OrderInformation = ({
+  formData,
+  setFormData,
   setIsAllFieldsFilled,
   isAllFieldsFilled,
 }: {
+  formData: any;
+  setFormData: (field: string, value: string) => void;
   setIsAllFieldsFilled: React.Dispatch<React.SetStateAction<boolean>>;
   isAllFieldsFilled: boolean;
 }) => {
-  const [district, setDistrict] = React.useState("");
-  const [committee, setCommittee] = React.useState("");
-  const [apartment, setApartment] = React.useState("");
-  const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [additionalInfo, setAdditionalInfo] = React.useState("");
-  const [paymentMethod, setPaymentMethod] = React.useState<"cash" | "card">(
-    "cash"
-  );
+  const {
+    district,
+    committee,
+    apartment,
+    phoneNumber,
+    additionalInfo,
+    paymentMethod,
+  } = formData;
 
-  const label = { inputProps: { "aria-label": "Checkbox demo" } };
-
-  const handleChangeDistrict = (event: SelectChangeEvent) => {
-    setDistrict(event.target.value as string);
-    checkAllFieldsFilled();
+  const handleChange = (field: string, value: string) => {
+    setFormData(field, value);
   };
 
-  const handleChangeCommittee = (event: SelectChangeEvent) => {
-    setCommittee(event.target.value as string);
-    checkAllFieldsFilled();
+  const handlePaymentMethodChange = (method: string) => {
+    setFormData("paymentMethod", method); // Update the paymentMethod in formData
   };
 
-  const handleChangeApartment = (event: SelectChangeEvent) => {
-    setApartment(event.target.value as string);
-    checkAllFieldsFilled();
+  // Mapping for district, committee, and apartment
+  const districtOptions: { [key: string]: string } = {
+    1: "Баянзүрх дүүрэг",
+    2: "Хан-Уул дүүрэг",
+    3: "Баянгол дүүрэг",
+    4: "Сонгинохайрхан дүүрэг",
+    5: "Чингэлтэй дүүрэг",
   };
 
-  const handlePhoneNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPhoneNumber(event.target.value);
-    checkAllFieldsFilled();
+  const committeeOptions: { [key: string]: string } = {
+    1: "1-р хороо",
+    2: "2-р хороо",
+    3: "3-р хороо",
+    4: "4-р хороо",
   };
 
-  const handleAdditionalInfoChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setAdditionalInfo(event.target.value);
-    checkAllFieldsFilled();
-  };
-
-  const checkAllFieldsFilled = () => {
-    if (district && committee && apartment && phoneNumber) {
-      setIsAllFieldsFilled(true);
-    } else {
-      setIsAllFieldsFilled(false);
-    }
+  const apartmentOptions: { [key: string]: string } = {
+    1: "Нархан хотхон",
+    2: "26-р байр",
+    3: "Хоймор хотхон",
   };
 
   return (
@@ -92,123 +86,113 @@ const OrderInformation = ({
           </p>
         </div>
       </div>
+
+      {/* Form Fields */}
       <div className="flex flex-col w-[432px] h-[712px] rounded-2xl shadow-xl p-6 gap-10">
         <div className="flex flex-col gap-4">
-          <p className="text-sm font-normal font-sf-pro">Хаяг аа оруулна уу</p>
+          {/* District */}
           <div className="flex items-center gap-1 w-full h-18 py-2 rounded-md">
-            <FormControl
-              fullWidth
-              sx={{ backgroundColor: "#F7F7F8", width: "full" }}
-            >
-              <InputLabel id="demo-simple-select-label">
+            <FormControl fullWidth sx={{ backgroundColor: "#F7F7F8" }}>
+              <InputLabel id="district-label">
                 <div className="flex items-center gap-2">
                   <MapIcon /> Дүүрэг сонгоно уу
                 </div>
               </InputLabel>
-
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="district-label"
                 value={district}
                 label="District"
-                onChange={handleChangeDistrict}
+                onChange={(e) =>
+                  handleChange("district", districtOptions[e.target.value])
+                }
               >
-                <MenuItem value={10}>Баянзүрх дүүрэг</MenuItem>
-                <MenuItem value={20}>Хан-Уул дүүрэг</MenuItem>
-                <MenuItem value={30}>Баянгол дүүрэг</MenuItem>
-                <MenuItem value={40}>Сонгинохайрхан дүүрэг</MenuItem>
-                <MenuItem value={50}>Чингэлтэй дүүрэг</MenuItem>
+                {Object.entries(districtOptions).map(([value, label]) => (
+                  <MenuItem key={value} value={value}>
+                    {label}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </div>
+
+          {/* Committee */}
           <div className="flex items-center gap-1 w-full h-18 py-2 rounded-md">
-            <FormControl
-              fullWidth
-              sx={{ backgroundColor: "#F7F7F8", width: "full" }}
-            >
-              <InputLabel id="demo-simple-select-label">
+            <FormControl fullWidth sx={{ backgroundColor: "#F7F7F8" }}>
+              <InputLabel id="committee-label">
                 <div className="flex items-center gap-2">
                   <MapIcon /> Хороо сонгоно уу
                 </div>
               </InputLabel>
-
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="committee-label"
                 value={committee}
-                label="Committee"
-                onChange={handleChangeCommittee}
+                onChange={(e) =>
+                  handleChange("committee", committeeOptions[e.target.value])
+                }
               >
-                <MenuItem value={1}>1-р хороо</MenuItem>
-                <MenuItem value={2}>2-р хороо</MenuItem>
-                <MenuItem value={3}>3-р хороо</MenuItem>
-                <MenuItem value={4}>4-р хороо</MenuItem>
-                <MenuItem value={5}>5-р хороо</MenuItem>
-                <MenuItem value={6}>6-р хороо</MenuItem>
-                <MenuItem value={7}>7-р хороо</MenuItem>
+                {Object.entries(committeeOptions).map(([value, label]) => (
+                  <MenuItem key={value} value={value}>
+                    {label}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </div>
+
+          {/* Apartment */}
           <div className="flex items-center gap-1 w-full h-18 py-2 rounded-md">
-            <FormControl
-              fullWidth
-              sx={{
-                backgroundColor: "#F7F7F8",
-                width: "full",
-              }}
-            >
-              <InputLabel id="demo-simple-select-label">
+            <FormControl fullWidth sx={{ backgroundColor: "#F7F7F8" }}>
+              <InputLabel id="apartment-label">
                 <div className="flex items-center gap-2">
-                  <MapIcon /> Байр, гудамж сонгоно уу
+                  <MapIcon /> Байр сонгоно уу
                 </div>
               </InputLabel>
-
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
+                labelId="apartment-label"
                 value={apartment}
-                label="Apartment"
-                onChange={handleChangeApartment}
+                onChange={(e) =>
+                  handleChange("apartment", apartmentOptions[e.target.value])
+                }
               >
-                <MenuItem value={1}>Нархан хотхон</MenuItem>
-                <MenuItem value={2}>26-р байр</MenuItem>
-                <MenuItem value={3}>Хоймор хотхон</MenuItem>
-                <MenuItem value={4}>45-р байр</MenuItem>
-                <MenuItem value={5}>Зайсан хотхон </MenuItem>
-                <MenuItem value={6}>Mega City хотхон</MenuItem>
-                <MenuItem value={7}>Hunnu хотхон</MenuItem>
+                {Object.entries(apartmentOptions).map(([value, label]) => (
+                  <MenuItem key={value} value={value}>
+                    {label}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </div>
         </div>
+
+        {/* Additional Info */}
         <div className="flex flex-col gap-1">
-          <label className="text-black text-sm font-norma font-sf-pro">
+          <label className="text-black text-sm font-sf-pro">
             Нэмэлт мэдээлэл
           </label>
           <textarea
-            id="message"
             rows={4}
             value={additionalInfo}
-            onChange={handleAdditionalInfoChange}
+            onChange={(e) => handleChange("additionalInfo", e.target.value)}
             className="block p-2.5 w-full text-sm text-[#8B8E95] bg-[#F7F7F8] rounded-lg border border-gray-400 outline-none"
             placeholder="Орц, давхар, орцны код ..."
-          ></textarea>
+          />
         </div>
+
+        {/* Phone Number */}
         <div>
-          <label className="text-black text-sm font-norma font-sf-pro">
+          <label className="text-black text-sm font-sf-pro">
             Утасны дугаар*
           </label>
           <input
             type="tel"
-            id="phone"
             value={phoneNumber}
-            onChange={handlePhoneNumberChange}
-            className="block w-full p-2.5 text-sm text-[#8B8E95] bg-[#F7F7F8] rounded-lg border border-gray-400 outline-none"
-            placeholder="123-45-678"
-            pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-            required
+            onChange={(e) => handleChange("phoneNumber", e.target.value)}
+            className="block w-full p-2.5 text-sm text-[#8B8E95] bg-[#F7F7F8] border border-gray-400 rounded-lg outline-none"
+            placeholder="Утасны дугаар"
           />
         </div>
+
+        {/* Payment Method */}
         <div className=" flex flex-col gap-2">
           <label className="text-black text-sm font-normal font-sf-pro">
             Төлбөр төлөх
@@ -216,9 +200,8 @@ const OrderInformation = ({
           <div className="flex gap-8">
             <div className="flex items-center w-1/2">
               <Checkbox
-                {...label}
                 checked={paymentMethod === "cash"}
-                onChange={() => setPaymentMethod("cash")}
+                onChange={() => handlePaymentMethodChange("cash")}
                 color="default"
                 sx={{ color: "#1C1B1F" }}
               />
@@ -231,9 +214,8 @@ const OrderInformation = ({
             </div>
             <div className="flex items-center w-1/2">
               <Checkbox
-                {...label}
                 checked={paymentMethod === "card"}
-                onChange={() => setPaymentMethod("card")}
+                onChange={() => handlePaymentMethodChange("card")}
                 color="default"
                 sx={{ color: "#1C1B1F" }}
               />
