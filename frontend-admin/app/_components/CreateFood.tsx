@@ -38,7 +38,9 @@ const CreateFood = (props: Props) => {
 
   const fetchCategoryData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/categories");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
+      );
       const data: ApiResponse = await response.json();
       setCategoryData(data.data);
     } catch (error) {
@@ -72,10 +74,13 @@ const CreateFood = (props: Props) => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/api/create-food", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/create-food`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       const data = await response.json();
       if (data.success) {
         props.setIsModalOpenFood(false);

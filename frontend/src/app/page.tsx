@@ -23,7 +23,9 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/foods");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/foods`
+      );
       const data: ApiResponse = await response.json();
       setFoodData(data.data);
     } catch (error) {

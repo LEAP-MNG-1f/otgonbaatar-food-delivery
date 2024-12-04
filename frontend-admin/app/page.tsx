@@ -41,7 +41,9 @@ export default function Home() {
 
   const fetchDataFood = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/foods");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/foods`
+      );
       const data: FoodResponse = await response.json();
       setFoodData(data.data);
     } catch (error) {
@@ -53,7 +55,9 @@ export default function Home() {
 
   const fetchDataCategory = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/categories");
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
+      );
       const data: CategoryResponse = await response.json();
       setCategoryData(data.data);
     } catch (error) {

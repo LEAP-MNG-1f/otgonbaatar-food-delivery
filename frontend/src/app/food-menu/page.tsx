@@ -29,7 +29,7 @@ const FoodMenu = () => {
     setActiveButton(button);
   };
 
-  const fetchData = async () => {
+  const fetchFoodData = async () => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/foods?category=${activeButton}`
@@ -43,8 +43,23 @@ const FoodMenu = () => {
     }
   };
 
+  const fetchCategoryData = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/categories`
+      );
+      const data: ApiResponse = await response.json();
+      setFoodDatas(data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetchData();
+    fetchFoodData();
+    fetchCategoryData();
   }, [activeButton]);
 
   return (
