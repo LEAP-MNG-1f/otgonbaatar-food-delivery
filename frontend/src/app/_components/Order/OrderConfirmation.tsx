@@ -96,10 +96,13 @@ const OrderConfirmation = ({
 
       {/* Cart Items */}
       <div className="flex flex-col justify-between w-[432px] h-[612px] rounded-2xl shadow-xl p-6">
-        <div className="flex flex-col w-full h-auto py-4 gap-4 border-b border-[#D6D8DB]">
+        <div className="flex flex-col w-full h-auto py-4 gap-4 ">
           {cartItems.length > 0 ? (
             cartItems.map((food: any) => (
-              <div key={food._id} className="flex w-full gap-4">
+              <div
+                key={food._id}
+                className="flex w-full h-[84px] border-b border-[#D6D8DB] pb-2 gap-4"
+              >
                 <div
                   style={{
                     backgroundImage: `url(${food.image})`,

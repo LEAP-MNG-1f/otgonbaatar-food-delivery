@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloseIcon } from "@/public/Icons/Icons";
 
-type FoodData = {
+type Food = {
   name: string;
   ingredient: string;
   price: string;
@@ -9,12 +9,24 @@ type FoodData = {
   image: File | null;
 };
 
+type Category = {
+  _id: string;
+  name: string;
+  foodId: string;
+};
+
+type ApiResponse = {
+  success: boolean;
+  data: Category[];
+};
+
 type Props = {
   setIsModalOpenFood: (value: boolean) => void;
 };
 
 const CreateFood = (props: Props) => {
-  const [foodData, setFoodData] = useState<FoodData>({
+  const [categoryData, setCategoryData] = useState<Category[]>([]);
+  const [foodData, setFoodData] = useState<Food>({
     name: "",
     ingredient: "",
     price: "",
@@ -23,6 +35,16 @@ const CreateFood = (props: Props) => {
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const fetchCategoryData = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/api/categories");
+      const data: ApiResponse = await response.json();
+      setCategoryData(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -58,12 +80,16 @@ const CreateFood = (props: Props) => {
       if (data.success) {
         props.setIsModalOpenFood(false);
       } else {
-        console.error("Error creating food:", data.message);
+        console.log("Error creating food:", data);
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  useEffect(() => {
+    fetchCategoryData();
+  }, []);
 
   return (
     <div
@@ -99,20 +125,30 @@ const CreateFood = (props: Props) => {
                   required
                 />
               </div>
+
               <div className="flex flex-col w-full h-auto gap-2">
                 <p className="text-[#121316] text-sm font-normal leading-5">
                   Хоолны ангилал
                 </p>
-                <input
-                  type="text"
+                <select
                   value={foodData.categoryId}
                   onChange={(e) =>
                     setFoodData({ ...foodData, categoryId: e.target.value })
                   }
                   className="h-14 bg-[#F4F4F4] outline-none px-3 rounded-lg"
                   required
-                />
+                >
+                  <option value="" disabled>
+                    Ангилал сонгоно уу
+                  </option>
+                  {categoryData.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
+
               <div className="flex flex-col w-full h-auto gap-2">
                 <p className="text-[#121316] text-sm font-normal leading-5">
                   Хоолны орц
