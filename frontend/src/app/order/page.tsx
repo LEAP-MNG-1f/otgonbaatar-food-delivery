@@ -4,7 +4,6 @@ import OrderConfirmation from "../_components/Order/OrderConfirmation";
 import { useState } from "react";
 
 const Order = () => {
-  // State to manage the form data
   const [formData, setFormData] = useState({
     district: "",
     committee: "",
@@ -16,18 +15,15 @@ const Order = () => {
 
   const [isAllFieldsFilled, setIsAllFieldsFilled] = useState(false);
 
-  // Update the formData state when a field changes
   const handleFieldChange = (field: string, value: string) => {
     setFormData((prevState) => ({
       ...prevState,
       [field]: value,
     }));
 
-    // Check if all required fields are filled
     checkAllFieldsFilled();
   };
 
-  // Check if all required fields are filled
   const checkAllFieldsFilled = () => {
     const { district, committee, apartment, phoneNumber } = formData;
     if (district && committee && apartment && phoneNumber) {
@@ -47,7 +43,7 @@ const Order = () => {
       />
       <OrderConfirmation
         isAllFieldsFilled={isAllFieldsFilled}
-        formData={formData} // Pass formData to OrderConfirmation
+        formData={formData}
       />
     </div>
   );

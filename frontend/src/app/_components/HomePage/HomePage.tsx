@@ -171,7 +171,7 @@ const HomePage = ({
             hideProgressBar
             closeOnClick
             pauseOnHover
-            style={{ zIndex: 9999 }} // Ensure it renders above modal
+            style={{ zIndex: 9999 }}
           />
         </div>
       </div>

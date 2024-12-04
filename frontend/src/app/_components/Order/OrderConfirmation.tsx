@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify"; // Import toast
-import "react-toastify/dist/ReactToastify.css"; // Import Toast styles
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OrderConfirmation = ({
   isAllFieldsFilled,
@@ -9,11 +9,10 @@ const OrderConfirmation = ({
   isAllFieldsFilled: boolean;
   formData: any;
 }) => {
-  const [cartItems, setCartItems] = useState<any[]>([]); // Track cart items from localStorage
-  const [loading, setLoading] = useState(false); // Track loading state
-  const [errorMessage, setErrorMessage] = useState<string>(""); // To display error messages
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  // Fetch cart items from localStorage
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
@@ -22,20 +21,19 @@ const OrderConfirmation = ({
     }
   }, []);
 
-  // Create Order function using fetch
   const createOrder = async () => {
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       const orderData = {
-        userId: "6744e90d0fcf8e11c199b18c", // This should come from the logged-in user's session or state
-        orderNumber: Math.floor(Math.random() * 100000), // Generate a random order number
-        foodIds: cartItems.map((item: any) => item._id), // Extract food IDs from cart items
+        userId: "6744e90d0fcf8e11c199b18c",
+        orderNumber: Math.floor(Math.random() * 100000),
+        foodIds: cartItems.map((item: any) => item._id),
         totalPrice: cartItems.reduce(
           (acc, item: any) => acc + item.price * (item.quantity || 1),
           0
-        ), // Calculate total price
-        process: "Waiting", // Default order status
+        ),
+        process: "Waiting",
         createdDate: new Date(),
         district: formData.district,
         khoroo: formData.committee,
@@ -45,7 +43,6 @@ const OrderConfirmation = ({
         // apartment: formData.apartment,
       };
 
-      // Send POST request using fetch
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/create-order`,
         {
@@ -60,12 +57,10 @@ const OrderConfirmation = ({
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // If order is successfully created
-        localStorage.removeItem("cart"); // Clear localStorage after successful order
-        setCartItems([]); // Clear cart items from state
+        localStorage.removeItem("cart");
+        setCartItems([]);
 
-        // Show toast notification
-        toast.success("Захиалга амжилттай баталгаажлаа!"); // Show success message
+        toast.success("Захиалга амжилттай баталгаажлаа!");
       } else {
         setErrorMessage("Захиалга үүсгэхэд алдаа гарлаа. Дахин оролдоно уу.");
       }
@@ -73,7 +68,7 @@ const OrderConfirmation = ({
       setErrorMessage("Алдаа гарлаа. Та дахин оролдоно уу.");
       console.log(error);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -162,15 +157,12 @@ const OrderConfirmation = ({
           </button>
         </div>
 
-        {/* Error Message */}
         {errorMessage && (
           <div className="text-red-500 text-sm mt-2 text-center">
             {errorMessage}
           </div>
         )}
       </div>
-
-      {/* Toast Container */}
       <ToastContainer />
     </div>
   );

@@ -21,45 +21,37 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
 }) => {
   const [counter, setCounter] = useState(1);
 
-  // Барааны тоо нэмэх
   const handlePlusCount = () => {
     setCounter(counter + 1);
   };
 
-  // Барааны тоо хасах
   const handleMinusCount = () => {
     if (counter > 1) {
       setCounter(counter - 1);
     }
   };
 
-  // Сагсанд бараа нэмэх функц
   const handleAddToCart = () => {
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // Check if item is already in cart
     const itemIndex = existingCart.findIndex(
       (item: Food) => item._id === selectedFood._id
     );
 
     if (itemIndex !== -1) {
-      // If item exists, update its quantity
       existingCart[itemIndex].quantity += counter;
     } else {
-      // If item doesn't exist, add it
       existingCart.push({
         ...selectedFood,
         quantity: counter,
       });
     }
 
-    // Save updated cart to localStorage
     localStorage.setItem("cart", JSON.stringify(existingCart));
     setIsModalOpen(false);
 
     console.log("Adding to cart...");
 
-    // Display toast
     const toastKey = Date.now();
     toast.success("Амжилттай сагсанд нэмэгдлээ!", {
       position: "top-right",
@@ -67,7 +59,7 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
-      toastId: toastKey, // Ensure each toast has a unique id
+      toastId: toastKey,
     });
   };
 

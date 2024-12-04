@@ -31,10 +31,9 @@ const OrderInformation = ({
   };
 
   const handlePaymentMethodChange = (method: string) => {
-    setFormData("paymentMethod", method); // Update the paymentMethod in formData
+    setFormData("paymentMethod", method);
   };
 
-  // Mapping for district, committee, and apartment
   const districtOptions: { [key: string]: string } = {
     1: "Баянзүрх дүүрэг",
     2: "Хан-Уул дүүрэг",
@@ -87,7 +86,6 @@ const OrderInformation = ({
         </div>
       </div>
 
-      {/* Form Fields */}
       <div className="flex flex-col w-[432px] h-[712px] rounded-2xl shadow-xl p-6 gap-10">
         <div className="flex flex-col gap-4">
           {/* District */}

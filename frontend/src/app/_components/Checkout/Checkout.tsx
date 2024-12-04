@@ -11,7 +11,7 @@ import {
 } from "../../../../public/Icons/Icons";
 import DeleteOrderConfirmation from "./DeleteOrderConfirmation";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import the CSS for the toast notifications
+import "react-toastify/dist/ReactToastify.css";
 
 type Anchor = "right";
 
@@ -23,58 +23,23 @@ type Food = {
   ingredient: string;
 };
 
-type Order = {
-  userId: string;
-  orderNumber: number;
-  foodIds: Food[];
-  totalPrice: number;
-  process: string;
-  createdDate: string;
-  district: string;
-  khoroo: string;
-  apartment: string;
-};
-
 export default function Checkout() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [orderData, setOrderData] = React.useState<Order[]>([]);
-  const [foodData, setFoodData] = React.useState<Food[]>([]);
   const [cartItems, setCartItems] = React.useState<Food[]>([]);
   const [foodItemToDelete, setFoodItemToDelete] = React.useState<Food | null>(
     null
-  ); // Track the item to delete
+  );
 
   const [quantities, setQuantities] = React.useState<Record<string, number>>(
     {}
-  ); // Track quantity for each item
+  );
 
-  const fetchDataOrder = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/api/orders");
-      const data = await response.json();
-      setOrderData(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchFoodData = async () => {
-    try {
-      const response = await fetch("http://localhost:8000/api/foods");
-      const data = await response.json();
-      setFoodData(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Fetch cart items from localStorage when the component mounts
   React.useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCartItems(savedCart);
     const initialQuantities: Record<string, number> = {};
     savedCart.forEach((item: Food) => {
-      initialQuantities[item._id] = 1; // Initialize quantity to 1 for all items
+      initialQuantities[item._id] = 1;
     });
     setQuantities(initialQuantities);
   }, []);
@@ -83,7 +48,6 @@ export default function Checkout() {
     right: false,
   });
 
-  // Handle the quantity increase for a specific item
   const handleClickPlusCount = (foodId: string) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -91,7 +55,6 @@ export default function Checkout() {
     }));
   };
 
-  // Handle the quantity decrease for a specific item
   const handleClickMinusCount = (foodId: string) => {
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
@@ -159,8 +122,8 @@ export default function Checkout() {
                       className="p-[5px]"
                       type="button"
                       onClick={() => {
-                        setFoodItemToDelete(food); // Set the item to delete
-                        setIsModalOpen(true); // Open the delete modal
+                        setFoodItemToDelete(food);
+                        setIsModalOpen(true);
                       }}
                     >
                       <CloseIcon />
@@ -218,33 +181,29 @@ export default function Checkout() {
         {isModalOpen && foodItemToDelete && (
           <DeleteOrderConfirmation
             setIsModalOpen={setIsModalOpen}
-            itemToDelete={foodItemToDelete} // Pass the foodItem to delete
-            removeItemFromCart={removeItemFromCart} // Pass the function to remove item
+            itemToDelete={foodItemToDelete}
+            removeItemFromCart={removeItemFromCart}
           />
         )}
       </div>
     </Box>
   );
 
-  // Function to remove an item from the cart and update localStorage
-  // Function to remove an item from the cart and update localStorage
   const removeItemFromCart = (itemId: string) => {
     const updatedCart = cartItems.filter((item) => item._id !== itemId);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 
-    // Also remove the quantity tracking for the deleted item
     const updatedQuantities = { ...quantities };
     delete updatedQuantities[itemId];
     setQuantities(updatedQuantities);
 
-    // Show a success toast notification
     toast.success("Амжилттай устгагдлаа", {
-      position: "top-right", // You can customize the position
-      autoClose: 3000, // The toast will disappear after 3 seconds
-      hideProgressBar: true, // You can disable the progress bar
-      closeOnClick: true, // The toast will close when clicked
-      pauseOnHover: true, // The toast will pause when hovered over
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
     });
   };
 
