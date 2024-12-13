@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify"; // Import toastify
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     const passwordInput = document.getElementById(
@@ -31,12 +35,49 @@ const Login = () => {
 
   const isFormValid = email.trim() !== "" && password.trim() !== "";
 
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const userData = { email, password };
+
+    try {
+      const response = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Save the JWT token in localStorage (or cookies)
+        localStorage.setItem("token", data.data.token);
+
+        // Show success toast
+        toast.success("Амжилттай нэвтэрлээ!");
+
+        // Redirect to dashboard or another page
+        setTimeout(() => {
+          router.push("/");
+        }, 2000);
+      } else {
+        // Show error toast if login fails
+        toast.error(data.message || "Нэвтрэхэд алдаа гарлаа.");
+      }
+    } catch (error) {
+      console.error("Login error", error);
+      toast.error("Алдаа гарлаа. Дахин оролдоно уу.");
+    }
+  };
+
   return (
     <div className="flex flex-col w-[448px] h-[549px] gap-12 p-8">
       <p className="flex items-center justify-center text-3xl font-bold">
         Нэвтрэх
       </p>
-      <div className="flex flex-col gap-4">
+      <form onSubmit={submitForm} className="flex flex-col gap-4">
         <div className="max-w-sm">
           <label className="block text-sm mb-2">Имэйл</label>
           <div className="relative">
@@ -91,27 +132,28 @@ const Login = () => {
             Нууц үг сэргээх
           </div>
         </div>
-      </div>
-      <div className="flex flex-col gap-8">
-        <button
-          className={`text-center px-4 py-2 rounded ${
-            isFormValid
-              ? "bg-[#18BA51] text-[#FFFFFF]"
-              : "bg-[#EEEFF2] text-[#1C20243D]"
-          }`}
-          disabled={!isFormValid}
-        >
-          Нэвтрэх
-        </button>
-        <p className="flex justify-center text-[#3F4145] text-sm font-normal">
-          Эсвэл
-        </p>
-        <Link href={"sign-up"}>
-          <button className=" w-full text-center text-[#272727] px-4 py-2 rounded border border-[#18BA51] hover:bg-[#18BA51] hover:text-[#FFFFFF] transition-all duration-100">
-            Бүртгүүлэх
+        <div className="flex flex-col gap-8">
+          <button
+            type="submit"
+            className={`text-center px-4 py-2 rounded ${
+              isFormValid
+                ? "bg-[#18BA51] text-[#FFFFFF]"
+                : "bg-[#EEEFF2] text-[#1C20243D]"
+            }`}
+            disabled={!isFormValid}
+          >
+            Нэвтрэх
           </button>
-        </Link>
-      </div>
+          <p className="flex justify-center text-[#3F4145] text-sm font-normal">
+            Эсвэл
+          </p>
+          <Link href={"sign-up"}>
+            <button className=" w-full text-center text-[#272727] px-4 py-2 rounded border border-[#18BA51] hover:bg-[#18BA51] hover:text-[#FFFFFF] transition-all duration-100">
+              Бүртгүүлэх
+            </button>
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };

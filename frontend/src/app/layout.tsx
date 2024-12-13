@@ -98,10 +98,10 @@ export default function RootLayout({
                     >
                       <Checkout />
                     </div>
-                    <Link href="/login">
+                    <Link href="/sign-in">
                       <div
                         className={`flex px-4 py-2 gap-2 items-center cursor-pointer ${
-                          pathname === "/login" ? "text-[#18BA51]" : ""
+                          pathname === "/sign-in" ? "text-[#18BA51]" : ""
                         }`}
                       >
                         <Image

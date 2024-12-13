@@ -4,13 +4,15 @@ import {
   createUser,
   updateUser,
   deleteUser,
+  loginUser,
 } from "../controllers/user.controller.js";
 
 const userRouter = exrpess.Router();
-// -------------User-------------
+
 userRouter.get("/users", getUser);
 userRouter.post("/create-user", createUser);
 userRouter.put("/update-user/:id", updateUser);
 userRouter.delete("/delete-user/:id", deleteUser);
+userRouter.post("/login", loginUser);
 
 export default userRouter;
