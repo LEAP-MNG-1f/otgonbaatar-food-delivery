@@ -36,13 +36,15 @@ const HomePage = ({
     <div className="flex flex-col w-full h-auto mb-14">
       <div
         style={{
-          backgroundImage: `url(${"background.svg"})`,
+          position: "relative",
+          width: "100%",
+          height: "800px",
+          background:
+            "linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('/background.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          width: "100%",
-          height: "545px",
         }}
-        className="flex w-full h-[788px] bg-[#18BA51] p-0 gap-0"
+        className="flex w-full h-[800px] p-0 gap-0 relative "
       >
         <p className="absolute top-[276px] w-[504px] text-white font-poppins text-[55px] font-semibold leading-[90%] tracking-[0.55px] pl-[120px]">
           Pinecone Food delivery
@@ -67,6 +69,7 @@ const HomePage = ({
           />
         </div>
       </div>
+
       <div className="grid grid-cols-4 w-full h-auto p-[120px] container m-auto">
         <div className="flex flex-col w-[267px] h-[155px] p-4 gap-[15px] rounded-2xl shadow-md hover:shadow-xl cursor-pointer">
           <div className="items-start p-[15px]">
@@ -137,7 +140,7 @@ const HomePage = ({
             <RoadMoreIcon />
           </button>
         </div>
-        <div className="w-full h-auto grid grid-cols-4 grid-rows-1 gap-6">
+        <div className="h-auto grid grid-cols-4 grid-rows-1 gap-6 container">
           {isLoading
             ? Array.from({ length: 12 }).map((_, index) => (
                 <ItemCard key={index} isLoading={true} />
@@ -150,7 +153,7 @@ const HomePage = ({
                     setSelectedFood(food);
                     setIsModalOpen(true);
                   }}
-                  className="w-[282px]"
+                  className="w-auto"
                 >
                   <ItemCard
                     name={food?.name}

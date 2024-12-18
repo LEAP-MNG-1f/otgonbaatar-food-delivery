@@ -73,73 +73,59 @@ const OrderConfirmation = ({
   };
 
   return (
-    <div className="w-[432px] h-auto flex flex-col gap-6">
+    <div className="w-full max-w-[480px] h-auto flex flex-col gap-6 rounded-2xl shadow-xl bg-white">
       {/* Header */}
-      <div className="flex w-full px-6 py-4 gap-4 justify-center items-center">
-        <div className="w-12">
-          <div className="flex w-12 h-12 items-center justify-center rounded-[50px] border border-[#0468C8]">
-            <div className="w-6 h-6 rounded-[50px] bg-[#0468C8]"></div>
-          </div>
+      <div className="flex items-center gap-4 px-6 py-4 border-b border-gray-200">
+        <div className="flex items-center justify-center w-12 h-12 rounded-full border border-blue-500">
+          <div className="w-6 h-6 bg-blue-500 rounded-full"></div>
         </div>
-        <div className="flex flex-col w-full gap-1">
-          <p className="text-[#8B8E95] text-sm font-normal font-sf-pro">
-            Алхам 2
-          </p>
-          <p className="text-black text-xl font-normal font-sf-pro">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm text-gray-500">Алхам 2</p>
+          <h2 className="text-lg font-medium text-gray-800">
             Захиалга баталгаажуулах
-          </p>
-          <p className="text-[#0468C8] text-base font-normal font-sf-pro">
-            Хүлээгдэж байна
-          </p>
+          </h2>
+          <p className="text-sm text-blue-500">Хүлээгдэж байна</p>
         </div>
       </div>
 
       {/* Cart Items */}
-      <div className="flex flex-col justify-between w-[432px] h-[612px] rounded-2xl shadow-xl p-6">
-        <div className="flex flex-col w-full h-auto py-4 gap-4 ">
+      <div className="flex flex-col h-full justify-between gap-4 p-6">
+        <div className="flex flex-col w-full h-[500px] overflow-y-auto gap-4">
           {cartItems.length > 0 ? (
             cartItems.map((food: any) => (
               <div
                 key={food._id}
-                className="flex w-full h-[84px] border-b border-[#D6D8DB] pb-2 gap-4"
+                className="flex items-start gap-4 p-4 bg-gray-100 rounded-lg shadow-sm"
               >
                 <div
                   style={{
                     backgroundImage: `url(${food.image})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
-                    width: "184px",
-                    height: "100%",
                   }}
-                  className="w-[184px] h-full"
+                  className="w-20 h-20 rounded-lg"
                 ></div>
-                <div className="flex flex-col w-[184px] h-auto">
-                  <div className="flex flex-col">
-                    <p className="text-black text-lg font-poppins font-semibold">
-                      {food.name}
-                    </p>
-                    <p className="text-[#18BA51] text-lg font-poppins font-semibold">
-                      {food.price}₮
-                    </p>
-                  </div>
-                  <div className="text-[#767676] text-base font-normal font-sf-pro">
-                    {food.ingredient}
-                  </div>
+                <div className="flex flex-col flex-1">
+                  <p className="text-base font-semibold text-gray-800">
+                    {food.name}
+                  </p>
+                  <p className="text-sm text-gray-500">{food.ingredient}</p>
+                  <p className="mt-auto text-lg font-bold text-green-500">
+                    {food.price}₮
+                  </p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-center">Сагс хоосон байна</p>
+            <p className="text-center text-gray-500">Сагс хоосон байна</p>
           )}
         </div>
 
         {/* Total Price and Order Button */}
-        <div className="w-full h-auto flex gap-[10px]">
-          <div className="flex flex-col w-[187px]">
-            <p className="text-[#5E6166] text-lg font-normal font-poppins">
-              Нийт төлөх дүн
-            </p>
-            <p className="text-[#121316] text-lg font-bold font-poppins">
+        <div className="flex items-  justify-between mt-4 h-14">
+          <div className="flex flex-col">
+            <p className="text-sm text-gray-500">Нийт төлөх дүн</p>
+            <p className="text-lg font-bold text-gray-900">
               {cartItems.reduce(
                 (acc, item: any) => acc + item.price * (item.quantity || 1),
                 0
@@ -148,10 +134,10 @@ const OrderConfirmation = ({
             </p>
           </div>
           <button
-            className={`w-[187px] px-4 py-2 ${
+            className={`w-40 px-4 py-2 rounded-lg transition ${
               isAllFieldsFilled
-                ? "bg-[#18BA51] text-[#FFFFFF]"
-                : "bg-[#EEEFF2] text-[#1C20243D] cursor-not-allowed"
+                ? "bg-green-500 text-white hover:bg-green-600"
+                : "bg-gray-200 text-gray-500 cursor-not-allowed"
             }`}
             disabled={!isAllFieldsFilled || loading}
             onClick={createOrder}
@@ -160,12 +146,14 @@ const OrderConfirmation = ({
           </button>
         </div>
 
+        {/* Error Message */}
         {errorMessage && (
-          <div className="text-red-500 text-sm mt-2 text-center">
+          <p className="mt-4 text-sm text-center text-red-500">
             {errorMessage}
-          </div>
+          </p>
         )}
       </div>
+
       <ToastContainer />
     </div>
   );

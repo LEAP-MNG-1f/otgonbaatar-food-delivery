@@ -71,21 +71,14 @@ const FoodMenu = () => {
   };
 
   const handleClickCategory = (categoryName: string) => {
-    // Сонгогдсон category name-ийг ашиглан categoryId-г шүүж авна
     const selectedCategory = categoryDatas.find(
       (data) => data.name === categoryName
     );
 
     if (selectedCategory) {
-      const { _id } = selectedCategory; // categoryId-г авна
-      // Энд categoryId-тай бүх мэдээг шүүж авах кодыг нэмнэ
-      // жишээ нь: categoryId-тай холбоотой бүтээгдэхүүнүүдийг шүүх
-      console.log(`Сонгогдсон categoryId: ${_id}`);
-      // Бусад хэрэгтэй үйлдлүүдийг энд хийх
-      // Гэж бодоход, тухайн categoryId-д хамаарах контентыг шүүх болно
+      const { _id } = selectedCategory;
     }
 
-    // `activeButton`-ийг шинэчилж, UI-д өөрчлөлт хийх
     setActiveButton(categoryName);
   };
 
@@ -127,7 +120,7 @@ const FoodMenu = () => {
                   setSelectedFood(food);
                   setIsModalOpen(true);
                 }}
-                className="w-[282px]"
+                className="w-auto"
               >
                 <ItemCard
                   name={food?.name}
@@ -151,17 +144,6 @@ const FoodMenu = () => {
           style={{ zIndex: 9999 }}
         />
       </div>
-      {/* <div className="grid grid-cols-4 grid-rows-none w-auto h-auto gap-6 px-[120px]">
-        {foodDatas.map((data) => (
-          <div key={data._id}>
-            <ItemCard
-              name={data.name}
-              price={data.price}
-              imageUrl={data.image}
-            />
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 };

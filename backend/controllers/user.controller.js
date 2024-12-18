@@ -11,12 +11,11 @@ const createUser = async (req, res) => {
   const { email, password, name, phoneNumber } = req.body;
 
   try {
-    // Hash the password before saving to the database
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       email,
-      password: hashedPassword, // Store the hashed password
+      password: hashedPassword,
       name,
       phoneNumber,
     });
@@ -93,13 +92,7 @@ const loginUser = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    // Log the password and hashed password for debugging
-    console.log("Entered password:", password);
-    console.log("Stored hashed password:", user.password);
-
-    // Compare the password with the hashed password stored in the database
     const passwordMatch = await bcrypt.compare(password, user.password);
-    console.log("Password match result:", passwordMatch);
 
     if (!passwordMatch) {
       return res
@@ -107,7 +100,6 @@ const loginUser = async (req, res) => {
         .json({ success: false, message: "Invalid credentials" });
     }
 
-    // Ensure JWT_SECRET_KEY is available in the environment variables
     const secretKey = process.env.JWT_SECRET_KEY;
     if (!secretKey) {
       return res
@@ -115,14 +107,10 @@ const loginUser = async (req, res) => {
         .json({ success: false, message: "Server error: secret key missing" });
     }
 
-    // Create JWT token
-    const token = jwt.sign(
-      { userId: user._id, email: user.email },
-      secretKey, // Secret key from your environment variables
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ userId: user._id, email: user.email }, secretKey, {
+      expiresIn: "1h",
+    });
 
-    // Respond with the token
     res.json({
       success: true,
       data: { token },

@@ -50,8 +50,6 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
     localStorage.setItem("cart", JSON.stringify(existingCart));
     setIsModalOpen(false);
 
-    console.log("Adding to cart...");
-
     const toastKey = Date.now();
     toast.success("Амжилттай сагсанд нэмэгдлээ!", {
       position: "top-right",
@@ -63,10 +61,17 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
     });
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setIsModalOpen(false);
+    }
+  };
+
   return (
     <div
       id="popup-modal"
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      onClick={handleBackdropClick}
     >
       <div className="relative p-8 max-h-full w-[981px] h-[564px] bg-white rounded-2xl shadow">
         <div className="w-full h-full flex gap-[33px]">

@@ -44,7 +44,7 @@ const CreateFood = (props: Props) => {
       const data: ApiResponse = await response.json();
       setCategoryData(data.data);
     } catch (error) {
-      console.log(error);
+      error;
     }
   };
 
@@ -72,7 +72,6 @@ const CreateFood = (props: Props) => {
     if (foodData.image) {
       formData.append("image", foodData.image);
     }
-    console.log(formData, "foodData");
 
     try {
       const response = await fetch(
@@ -83,7 +82,6 @@ const CreateFood = (props: Props) => {
         }
       );
       const data = await response.json();
-      console.log(response);
 
       if (data.success) {
         props.setIsModalOpenFood(false);

@@ -61,8 +61,7 @@ const SignUp = () => {
   };
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Prevent default form submission
-    console.log("Form submitted"); // Debugging line to check if this is triggered
+    e.preventDefault();
 
     if (password !== rePassword) {
       toast.error("Нууц үг хоорондоо таарахгүй байна.");
@@ -84,7 +83,7 @@ const SignUp = () => {
         toast.success("Амжилттай бүртгэгдлээ!");
         resetForm();
         setTimeout(() => {
-          router.push("/sign-in"); // Redirect to sign-in page
+          router.push("/sign-in");
         }, 3000);
       } else {
         toast.error(data.message || "Бүртгэл үүсгэхэд алдаа гарлаа.");

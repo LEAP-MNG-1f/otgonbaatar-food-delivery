@@ -50,8 +50,9 @@ export default function RootLayout({
       >
         <div className="flex flex-col flex-grow justify-center">
           <div className="flex flex-col flex-grow">
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center fixed w-full bg-white z-10">
               <div className="flex items-center container justify-center px-[120px]">
+                {/* <div className="flex items-center container justify-center px-4 sm:px-8 md:px-12 lg:px-16 xl:px-32"> */}
                 <div className="w-full flex justify-between">
                   <div className="flex gap-2 py-2 px-6 items-center">
                     <Link href={"/"}>
@@ -117,7 +118,7 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
-            <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col justify-center items-center mt-10">
               {loading && <Loader />}
               {children}
             </div>
@@ -125,7 +126,7 @@ export default function RootLayout({
 
           <div
             style={{
-              backgroundImage: `url(${"background.svg"})`,
+              backgroundImage: `url(${"background.jpg"})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               width: "100%",
@@ -133,7 +134,7 @@ export default function RootLayout({
             }}
             className="flex w-full h-[545px] bg-[#18BA51] mt-auto"
           >
-            <div className="flex flex-col justify-center w-full mx-32 my-28 gap-10">
+            <div className="flex flex-col justify-center w-full mx-32 my-28 gap-10 backdrop-blur-[2px] p-20 rounded-3xl border border-yellow-50">
               <div className="flex items-center justify-center">
                 <Image
                   src="/Logo/LogoPineconeAcademy.svg"
