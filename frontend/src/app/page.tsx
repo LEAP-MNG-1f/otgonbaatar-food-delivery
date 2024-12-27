@@ -20,12 +20,13 @@ export default function Home() {
   const [isModalOpenFood, setIsModalOpen] = React.useState(false);
   const [foodData, setFoodData] = React.useState<Food[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+    ? process.env.NEXT_PUBLIC_BACKEND_URL
+    : "http://localhost:8000/api";
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/foods`
-      );
+      const response = await fetch(`${BACKEND_URL}/foods`);
       const data: ApiResponse = await response.json();
       setFoodData(data.data);
     } catch (error) {

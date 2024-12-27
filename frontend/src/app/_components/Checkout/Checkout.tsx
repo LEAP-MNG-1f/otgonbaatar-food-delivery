@@ -21,45 +21,115 @@ type Food = {
   price: number;
   image: string;
   ingredient: string;
+  quantity?: number;
 };
 
 export default function Checkout() {
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  // const { cartItems, totalQuantity, updateCart } = useCart();
   const [cartItems, setCartItems] = React.useState<Food[]>([]);
+  const [totalQuantity, setTotalQuantity] = React.useState(0);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [foodItemToDelete, setFoodItemToDelete] = React.useState<Food | null>(
     null
   );
-
   const [quantities, setQuantities] = React.useState<Record<string, number>>(
     {}
   );
 
+  const loadCartData = () => {
+    if (typeof window !== "undefined") {
+      try {
+        const cartData = localStorage.getItem("cart");
+        if (cartData) {
+          const parsedCart = JSON.parse(cartData);
+          console.log("Loaded cart data:", parsedCart);
+
+          setCartItems(parsedCart);
+          // Нийт тоо хэмжээг тооцох
+          const total = parsedCart.reduce(
+            (sum: number, item: Food) => sum + (item.quantity || 0),
+            0
+          );
+          setTotalQuantity(total);
+        }
+      } catch (error) {
+        console.error("Error loading cart data:", error);
+      }
+    }
+  };
+  console.log("cartitemdata", cartItems);
+
+  // Component mount хийгдэх үед local storage-аас өгөгдөл уншиж авах
   React.useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    setCartItems(savedCart);
+    if (typeof window !== "undefined") {
+      // Ensure that the code only runs in the browser environment
+      loadCartData();
+    }
+  }, []);
+
+  const updateCart = (newItems: Food[]) => {
+    if (typeof window !== "undefined") {
+      try {
+        // Log the data to confirm what is being stored
+        console.log("Updating cart:", newItems);
+
+        localStorage.setItem("cart", JSON.stringify(newItems));
+        setCartItems(newItems);
+
+        const newTotal = newItems.reduce(
+          (sum, item) => sum + (item.quantity || 0),
+          0
+        );
+        setTotalQuantity(newTotal);
+      } catch (error) {
+        console.error("Error updating cart:", error);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    // Initialize quantities from cartItems
     const initialQuantities: Record<string, number> = {};
-    savedCart.forEach((item: Food) => {
-      initialQuantities[item._id] = 1;
+    cartItems.forEach((item) => {
+      initialQuantities[item._id] = item.quantity || 1;
     });
     setQuantities(initialQuantities);
-  }, []);
+  }, [cartItems]);
+  console.log("cartitemcheckout", cartItems);
 
   const [state, setState] = React.useState({
     right: false,
   });
 
   const handleClickPlusCount = (foodId: string) => {
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [foodId]: prevQuantities[foodId] + 1,
-    }));
+    const updatedQuantities = {
+      ...quantities,
+      [foodId]: (quantities[foodId] || 1) + 1,
+    };
+    setQuantities(updatedQuantities);
+
+    // Update cart items with new quantity
+    const updatedCart = cartItems.map((item) =>
+      item._id === foodId
+        ? { ...item, quantity: updatedQuantities[foodId] }
+        : item
+    );
+    updateCart(updatedCart);
   };
 
   const handleClickMinusCount = (foodId: string) => {
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [foodId]: Math.max(1, prevQuantities[foodId] - 1),
-    }));
+    const newQuantity = Math.max(1, (quantities[foodId] || 1) - 1);
+    const updatedQuantities = {
+      ...quantities,
+      [foodId]: newQuantity,
+    };
+    setQuantities(updatedQuantities);
+
+    // Update cart items with new quantity
+    const updatedCart = cartItems.map((item) =>
+      item._id === foodId ? { ...item, quantity: newQuantity } : item
+    );
+    updateCart(updatedCart);
   };
 
   const toggleDrawer =
@@ -168,14 +238,23 @@ export default function Checkout() {
               ₮
             </p>
           </div>
-          <Link href={"/order"}>
+          {cartItems.length > 0 ? (
+            <Link href={"/order"}>
+              <button
+                onClick={toggleDrawer(anchor, false)}
+                className="w-[256px] h-12 rounded-md bg-[#18BA51] text-white text-base font-normal font-sf-pro px-4 py-2"
+              >
+                Захиалах
+              </button>
+            </Link>
+          ) : (
             <button
               onClick={toggleDrawer(anchor, false)}
-              className="w-[256px] h-12 rounded-md bg-[#18BA51] text-white text-base font-normal font-sf-pro px-4 py-2"
+              className="w-[256px] h-12 rounded-md bg-gray-200 text-gray-500 text-base font-normal font-sf-pro px-4 py-2 cursor-not-allowed"
             >
               Захиалах
             </button>
-          </Link>
+          )}
         </div>
 
         {isModalOpen && foodItemToDelete && (
@@ -190,21 +269,29 @@ export default function Checkout() {
   );
 
   const removeItemFromCart = (itemId: string) => {
-    const updatedCart = cartItems.filter((item) => item._id !== itemId);
-    setCartItems(updatedCart);
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    // cartItems массиваас устгах гэж буй element-ийг хайж олох
+    const itemToRemove = cartItems.find((item) => item._id === itemId);
 
-    const updatedQuantities = { ...quantities };
-    delete updatedQuantities[itemId];
-    setQuantities(updatedQuantities);
+    if (itemToRemove) {
+      // cartItems массиваас element устгах
+      const updatedCart = cartItems.filter((item) => item._id !== itemId);
 
-    toast.success("Амжилттай устгагдлаа", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-    });
+      // CartContext рүү шинэчлэгдсэн өгөгдлийг явуулах
+      updateCart(updatedCart);
+
+      // quantities объектоос устгах
+      const updatedQuantities = { ...quantities };
+      delete updatedQuantities[itemId];
+      setQuantities(updatedQuantities);
+
+      toast.success("Амжилттай устгагдлаа", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
   };
 
   return (
@@ -221,6 +308,16 @@ export default function Checkout() {
                 height={20}
               />
               Сагс
+              {totalQuantity === 0 ? (
+                ""
+              ) : (
+                <div
+                  className="flex items-center justify-center w-6 h-6 bg-white text-green-500 text-xs font-bold rounded-full 
+               shadow-md"
+                >
+                  {totalQuantity}
+                </div>
+              )}
             </div>
           </button>
           <SwipeableDrawer

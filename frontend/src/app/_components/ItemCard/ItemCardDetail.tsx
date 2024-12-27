@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MinusICon, PlusIcon } from "../../../../public/Icons/Icons";
 import { toast, ToastContainer } from "react-toastify"; // Import toast
+import { useCart } from "./CartContext";
 
 type Food = {
   _id: string;
@@ -20,6 +21,7 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
   setIsModalOpen,
 }) => {
   const [counter, setCounter] = useState(1);
+  const { cartItems, updateCart } = useCart();
 
   const handlePlusCount = () => {
     setCounter(counter + 1);
@@ -32,32 +34,36 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
   };
 
   const handleAddToCart = () => {
-    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-
+    const existingCart = [...cartItems];
     const itemIndex = existingCart.findIndex(
-      (item: Food) => item._id === selectedFood._id
+      (item) => item._id === selectedFood._id
     );
 
     if (itemIndex !== -1) {
-      existingCart[itemIndex].quantity += counter;
+      // Ensure we're properly adding the new quantity
+      const currentQuantity = existingCart[itemIndex].quantity || 0;
+      existingCart[itemIndex] = {
+        ...existingCart[itemIndex],
+        quantity: currentQuantity + counter,
+      };
     } else {
+      // Add new item with quantity
       existingCart.push({
         ...selectedFood,
         quantity: counter,
       });
     }
 
-    localStorage.setItem("cart", JSON.stringify(existingCart));
+    // Update cart context
+    updateCart(existingCart);
     setIsModalOpen(false);
 
-    const toastKey = Date.now();
     toast.success("Амжилттай сагсанд нэмэгдлээ!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
-      toastId: toastKey,
     });
   };
 

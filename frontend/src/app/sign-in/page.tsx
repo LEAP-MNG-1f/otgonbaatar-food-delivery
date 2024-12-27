@@ -135,7 +135,7 @@ const Login = () => {
         <div className="flex flex-col gap-8">
           <button
             type="submit"
-            className={`text-center px-4 py-2 rounded ${
+            className={`text-center px-4 py-2 rounded duration-500 ${
               isFormValid
                 ? "bg-[#18BA51] text-[#FFFFFF]"
                 : "bg-[#EEEFF2] text-[#1C20243D]"
@@ -148,7 +148,7 @@ const Login = () => {
             Эсвэл
           </p>
           <Link href={"sign-up"}>
-            <button className=" w-full text-center text-[#272727] px-4 py-2 rounded border border-[#18BA51] hover:bg-[#18BA51] hover:text-[#FFFFFF] transition-all duration-100">
+            <button className=" w-full text-center text-[#272727] px-4 py-2 rounded border border-[#18BA51] hover:bg-[#18BA51] hover:text-[#FFFFFF] transition-all duration-500">
               Бүртгүүлэх
             </button>
           </Link>
