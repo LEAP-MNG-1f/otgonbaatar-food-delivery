@@ -11,7 +11,7 @@ const Zone = ({
   onClick: (address: string) => void;
 }) => (
   <div
-    className="flex flex-col w-[262px] items-start gap-4 cursor-pointer"
+    className="flex flex-col w-full sm:w-[262px] items-start gap-4 cursor-pointer"
     onClick={() => onClick(name)}
   >
     {[
@@ -24,7 +24,7 @@ const Zone = ({
     ].map((item, idx) => (
       <p
         key={idx}
-        className="text-black text-center text-base font-sf-pro font-normal leading-normal"
+        className="text-black text-base font-sf-pro font-normal leading-normal hover:text-[#18BA51] transition-colors"
       >
         {item}
       </p>
@@ -65,6 +65,7 @@ const DeliveryZone = () => {
       const mapOptions = {
         center: { lat: 47.91996922842304, lng: 106.91756534492119 },
         zoom: 13,
+        gestureHandling: "cooperative", // Better touch handling
       };
 
       if (mapRef.current && !mapInstance.current) {
@@ -94,6 +95,7 @@ const DeliveryZone = () => {
           const lng = geometry.location.lng();
 
           mapInstance.current.setCenter({ lat, lng });
+          mapInstance.current.setZoom(15);
 
           if (currentMarker) {
             currentMarker.setMap(null);
@@ -103,6 +105,7 @@ const DeliveryZone = () => {
             position: { lat, lng },
             map: mapInstance.current,
             title: address,
+            animation: google.maps.Animation.DROP,
           });
 
           setCurrentMarker(marker);
@@ -114,10 +117,16 @@ const DeliveryZone = () => {
   };
 
   return (
-    <div className="flex flex-col container w-full h-auto px-[120px] my-10 gap-8">
-      <div ref={mapRef} className="w-full h-[616px]" />
-      <div className="flex flex-col gap-10">
-        <div className="flex text-text-secondary font-poppins text-22 font-bold leading-normal gap-1">
+    <div className="flex flex-col w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-[120px] my-6 sm:my-10 gap-6 sm:gap-8">
+      {/* Map Container */}
+      <div
+        ref={mapRef}
+        className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[616px] rounded-lg shadow-md"
+      />
+
+      <div className="flex flex-col gap-6 sm:gap-10">
+        {/* Section Title */}
+        <div className="flex items-center text-text-secondary font-poppins text-xl sm:text-22 font-bold leading-normal gap-1">
           <Image
             src="/Icons/Star.svg"
             alt="Food Delivery Logo"
@@ -126,16 +135,18 @@ const DeliveryZone = () => {
           />
           Хүргэлтийн бүс дэх хаягууд
         </div>
-        <div className="flex justify-center items-center gap-5">
+
+        {/* Zone Cards */}
+        <div className="flex flex-col lg:flex-row justify-center items-stretch gap-5">
           {["А бүс", "Б бүс"].map((zone, idx) => (
             <div
               key={idx}
-              className="flex flex-col w-[588px] h-[388px] p-6 items-start rounded-2xl shadow-md gap-4"
+              className="flex flex-col w-full lg:w-[588px] p-4 sm:p-6 items-start rounded-2xl shadow-md gap-4"
             >
-              <div className="w-full text-text-secondary font-poppins text-22 font-bold leading-normal py-4 border-b border-[#18BA51]">
+              <div className="w-full text-text-secondary font-poppins text-xl sm:text-22 font-bold leading-normal py-4 border-b border-[#18BA51]">
                 {zone}
               </div>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
                 <Zone name={zone} onClick={handleAddressClick} />
                 <Zone name={zone} onClick={handleAddressClick} />
               </div>
@@ -144,10 +155,11 @@ const DeliveryZone = () => {
         </div>
       </div>
 
+      {/* Selected Address Display */}
       {selectedAddress && (
         <div className="mt-4 p-4 bg-white shadow-lg rounded-xl">
-          <p className="text-xl font-bold">Таны сонгосон хаяг:</p>
-          <p className="text-lg">{selectedAddress}</p>
+          <p className="text-lg sm:text-xl font-bold">Таны сонгосон хаяг:</p>
+          <p className="text-base sm:text-lg">{selectedAddress}</p>
         </div>
       )}
     </div>

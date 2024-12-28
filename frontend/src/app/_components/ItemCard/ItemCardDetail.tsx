@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { MinusICon, PlusIcon } from "../../../../public/Icons/Icons";
-import { toast, ToastContainer } from "react-toastify"; // Import toast
+import { toast } from "react-toastify"; // Import toast
 import { useCart } from "./CartContext";
+import { Minus, Plus, X } from "lucide-react";
 
 type Food = {
   _id: string;
@@ -75,86 +75,91 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
 
   return (
     <div
-      id="popup-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
       onClick={handleBackdropClick}
     >
-      <div className="relative p-8 max-h-full w-[981px] h-[564px] bg-white rounded-2xl shadow">
-        <div className="w-full h-full flex gap-[33px]">
-          <div
-            style={{
-              backgroundImage: `url(${selectedFood.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              width: "500px",
-              height: "500px",
-            }}
-          ></div>
-          <div className="w-auto h-full flex flex-col">
-            <div className="w-full flex justify-end items-end">
+      <div className="relative bg-white rounded-2xl shadow w-full max-w-[981px] max-h-[90vh] overflow-y-auto">
+        {/* Close button for mobile */}
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="absolute right-4 top-4 z-10 text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-2 md:hidden"
+        >
+          <X size={20} />
+        </button>
+
+        <div className="flex flex-col md:flex-row md:gap-8 w-full">
+          {/* Food Image */}
+          <div className="w-full md:w-1/2 h-[300px] md:h-[500px]">
+            <div
+              className="w-full h-full rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none"
+              style={{
+                backgroundImage: `url(${selectedFood.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          </div>
+
+          {/* Content Section */}
+          <div className="flex flex-col p-6 md:p-8 md:w-1/2">
+            {/* Close button for desktop */}
+            <div className="hidden md:flex w-full justify-end mb-4">
               <button
                 onClick={() => setIsModalOpen(false)}
-                type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-200 dark:hover:text-white"
+                className="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg p-2"
               >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
+                <X size={20} />
               </button>
             </div>
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col">
-                <p className="text-black text-lg font-poppins font-semibold">
+
+            {/* Food Details */}
+            <div className="flex flex-col gap-6">
+              {/* Name and Price */}
+              <div className="flex flex-col gap-2">
+                <h3 className="text-black text-lg font-poppins font-semibold">
                   {selectedFood.name}
-                </p>
+                </h3>
                 <p className="text-[#18BA51] text-lg font-poppins font-semibold">
                   {selectedFood.price} ₮
                 </p>
               </div>
+
+              {/* Ingredients */}
               <div className="flex flex-col gap-3">
-                <p className="text-[#000000] text-lg font-semibold font-poppins">
+                <p className="text-black text-lg font-semibold font-poppins">
                   Орц
                 </p>
-                <p className="bg-[#F6F6F6] text-[#767676] text-base font-normal p-2">
+                <p className="bg-[#F6F6F6] text-[#767676] text-base font-normal p-3 rounded">
                   {selectedFood.ingredient}
                 </p>
               </div>
-              <p className="text-[#000000] text-lg font-semibold font-poppins">
-                Тоо
-              </p>
-              <div className="flex gap-5">
-                <button
-                  onClick={handleMinusCount}
-                  className="flex bg-[#18BA51] w-[45px] h-[40px] justify-center items-center rounded-[10px]"
-                >
-                  <MinusICon />
-                </button>
-                <p className="flex justify-center items-center w-[254px] px-[30px] py-2">
-                  {counter}
+
+              {/* Quantity Counter */}
+              <div className="flex flex-col gap-4">
+                <p className="text-black text-lg font-semibold font-poppins">
+                  Тоо
                 </p>
-                <button
-                  onClick={handlePlusCount}
-                  className="flex bg-[#18BA51] w-[45px] h-[40px] justify-center items-center rounded-[10px]"
-                >
-                  <PlusIcon />
-                </button>
+                <div className="flex gap-4 items-center">
+                  <button
+                    onClick={handleMinusCount}
+                    className="flex bg-[#18BA51] w-[40px] h-[40px] justify-center items-center rounded-lg hover:bg-[#149E44] transition-colors"
+                  >
+                    <Minus size={20} color="white" />
+                  </button>
+                  <p className="flex-1 text-center min-w-[60px]">{counter}</p>
+                  <button
+                    onClick={handlePlusCount}
+                    className="flex bg-[#18BA51] w-[40px] h-[40px] justify-center items-center rounded-lg hover:bg-[#149E44] transition-colors"
+                  >
+                    <Plus size={20} color="white" />
+                  </button>
+                </div>
               </div>
+
+              {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                className="w-[384px] rounded-md bg-[#18BA51] text-white text-base font-normal font-sf-pro px-4 py-2"
+                className="w-full md:w-auto rounded-lg bg-[#18BA51] text-white text-base font-normal px-6 py-3 hover:bg-[#149E44] transition-colors mt-4"
               >
                 Сагслах
               </button>
@@ -162,13 +167,6 @@ const ItemCardDetail: React.FC<ItemCardDetailProps> = ({
           </div>
         </div>
       </div>
-
-      {/* ToastContainer to render the toast notifications */}
-      {/* <ToastContainer
-        style={{
-          zIndex: 9999,
-        }}
-      /> */}
     </div>
   );
 };

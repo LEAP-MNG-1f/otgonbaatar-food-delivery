@@ -37,6 +37,9 @@ const FoodMenu = () => {
   const [isModalOpenFood, setIsModalOpen] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+    ? process.env.NEXT_PUBLIC_BACKEND_URL
+    : "http://localhost:8000/api";
 
   const handleClick = (button: string) => {
     setActiveButton(button);
@@ -45,7 +48,7 @@ const FoodMenu = () => {
   const fetchFoodData = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/foods?category=${activeButton}`
+        `${BACKEND_URL}/foods?category=${activeButton}`
       );
       const data: ApiResponse = await response.json();
       setFoodDatas(data.data);
@@ -88,26 +91,33 @@ const FoodMenu = () => {
   }, [activeButton]);
 
   return (
-    <div className="flex flex-col w-[1440px] h-auto container">
-      <div className="flex w-full py-8 gap-6 px-[120px] container">
-        {categoryDatas.map((data) => {
-          return (
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Category Buttons */}
+      <div className="py-4 md:py-6 lg:py-8 overflow-x-auto">
+        <div className="flex gap-3 md:gap-4 lg:gap-6 min-w-min">
+          {categoryDatas.map((data) => (
             <button
               key={data._id}
-              className={`w-[280px] py-2 px-4 text-lg font-medium rounded-lg border border-[#D6D8DB] duration-300 
-      ${
-        activeButton === data.name
-          ? "bg-[#18BA55] text-white"
-          : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
-      }`}
+              className={`
+                whitespace-nowrap px-4 py-2 text-base md:text-lg font-medium 
+                rounded-lg border border-[#D6D8DB] transition-all duration-300
+                min-w-[120px] md:min-w-[150px] lg:min-w-[180px]
+                ${
+                  activeButton === data.name
+                    ? "bg-[#18BA55] text-white"
+                    : "bg-white text-black hover:border-[#18BA51] hover:text-[#18BA51] hover:shadow-sm"
+                }
+              `}
               onClick={() => handleClick(data.name)}
             >
               {data.name}
             </button>
-          );
-        })}
+          ))}
+        </div>
       </div>
-      <div className="h-auto grid grid-cols-4 grid-rows-1 gap-6 container px-[120px]">
+
+      {/* Food Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {isLoading
           ? Array.from({ length: 12 }).map((_, index) => (
               <ItemCard key={index} isLoading={true} />
@@ -120,7 +130,7 @@ const FoodMenu = () => {
                   setSelectedFood(food);
                   setIsModalOpen(true);
                 }}
-                className="w-auto"
+                className="w-full"
               >
                 <ItemCard
                   name={food?.name}
@@ -129,21 +139,24 @@ const FoodMenu = () => {
                 />
               </div>
             ))}
-        {isModalOpenFood && selectedFood && (
-          <ItemCardDetail
-            selectedFood={selectedFood}
-            setIsModalOpen={setIsModalOpen}
-          />
-        )}
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar
-          closeOnClick
-          pauseOnHover
-          style={{ zIndex: 9999 }}
-        />
       </div>
+
+      {/* Modal and Toast */}
+      {isModalOpenFood && selectedFood && (
+        <ItemCardDetail
+          selectedFood={selectedFood}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick
+        pauseOnHover
+        style={{ zIndex: 9999 }}
+      />
     </div>
   );
 };

@@ -8,7 +8,7 @@ type ItemCardProps = {
 const ItemCard = ({ name, price, imageUrl, isLoading }: ItemCardProps) => {
   if (isLoading) {
     return (
-      <div className="w-[282px] flex flex-col h-auto gap-[14px] cursor-pointer animate-pulse">
+      <div className="w-full flex flex-col h-auto gap-4 cursor-pointer animate-pulse">
         <div className="w-full h-[186px] bg-gray-300 rounded-2xl"></div>
         <div className="flex flex-col gap-2">
           <div className="h-6 bg-gray-300 rounded w-3/4"></div>
@@ -19,7 +19,7 @@ const ItemCard = ({ name, price, imageUrl, isLoading }: ItemCardProps) => {
   }
 
   return (
-    <div className="group relative w-[282px] h-auto cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg rounded-2xl overflow-hidden">
+    <div className="group relative w-full h-auto cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg rounded-2xl overflow-hidden">
       <div
         style={{
           backgroundImage: `url(${imageUrl})`,
@@ -28,16 +28,16 @@ const ItemCard = ({ name, price, imageUrl, isLoading }: ItemCardProps) => {
         }}
         className="w-full h-[186px] rounded-t-2xl relative"
       >
-        {/* Хямдрал эсвэл статус бэлгэдэл нэмж болно */}
+        {/* Add discount or status badge if needed */}
       </div>
 
       <div className="p-3 bg-white">
         <div className="flex justify-between items-center">
-          <h3 className="text-black font-poppins text-lg font-semibold leading-normal truncate max-w-[180px]">
+          <h3 className="text-black font-poppins text-base md:text-lg font-semibold leading-normal truncate max-w-[180px]">
             {name}
           </h3>
 
-          {/* Favorite болон cart дээр нэмэх товч */}
+          {/* Favorite and Add to Cart buttons */}
           <div className="flex space-x-2">
             <button className="text-gray-500 hover:text-red-500 transition-colors">
               <svg
@@ -75,13 +75,13 @@ const ItemCard = ({ name, price, imageUrl, isLoading }: ItemCardProps) => {
         </div>
 
         <div className="flex justify-between items-center mt-2">
-          <p className="text-[#18BA51] font-poppins text-lg font-semibold leading-normal">
+          <p className="text-[#18BA51] font-poppins text-base md:text-lg font-semibold leading-normal">
             {price}₮
           </p>
         </div>
       </div>
 
-      {/* Hover effect дээр нэмэлт мэдээлэл гарах */}
+      {/* Hover effect for additional information */}
       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <button className="bg-white text-black px-4 py-2 rounded-full hover:bg-green-500 hover:text-white transition-colors">
           Дэлгэрэнгүй үзэх
